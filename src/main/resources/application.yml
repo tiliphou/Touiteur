@@ -1,6 +1,11 @@
 server:
   port: 8091
 spring:
+  servlet:
+    multipart:
+      max-file-size: 10000MB
+      max-request-size: 10000MB
+
   # Setting up the datasource to mysql
   datasource:
     driverClassName: com.mysql.cj.jdbc.Driver
@@ -25,3 +30,13 @@ spring:
   web:
     resources:
       add-mappings: true
+      static-locations: /WEB-INF/static/
+  thymeleaf:
+    prefix: /WEB-INF/templates/
+  devtools:
+    livereload:
+      enabled: true
+    restart:
+      enabled: true
+      additional-exclude: "**/*.js,**/*.css,**/*.html"
+      additional-paths: ./src/main/webapp/WEB-INF/templates/

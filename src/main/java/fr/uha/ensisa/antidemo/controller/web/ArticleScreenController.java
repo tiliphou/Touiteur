@@ -1,10 +1,9 @@
 package fr.uha.ensisa.antidemo.controller.web;
 
 import fr.uha.ensisa.antidemo.dao.IArticleService;
-import fr.uha.ensisa.antidemo.dao.IPosterService;
+import fr.uha.ensisa.antidemo.dao.IImageService;
 import fr.uha.ensisa.antidemo.dto.ArticleCreationRequestDto;
 import fr.uha.ensisa.antidemo.entity.Article;
-import fr.uha.ensisa.antidemo.entity.Poster;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -16,50 +15,65 @@ import java.io.IOException;
 @RequiredArgsConstructor
 @Controller
 @RequestMapping("/article")
-public class ArticleWebController {
+public class ArticleScreenController {
 
   private final IArticleService articleService;
-  private final IPosterService posterService;
+  private final IImageService posterService;
 
   @ModelAttribute("article")
   public ArticleCreationRequestDto articleCreationRequestDto() {
     return new ArticleCreationRequestDto();
   }
 
+
   @GetMapping
   public String showArticleCreationForm() {
-    return "post";
+    return "article";
   }
 
   @PostMapping
   public String createArticle(@ModelAttribute("article") @Valid ArticleCreationRequestDto articleDto) throws IOException {
-    Poster poster = posterService.store(articleDto.getPoster());
     articleService.save(
       Article.builder()
-        .posterId(poster.getId())
+        .posterId(articleDto.getPosterId())
         .content(articleDto.getContent())
         .title(articleDto.getTitle())
-      .build()
-      );
-    return "index";
+        .build()
+    );
+    return "redirect:/articles";
   }
 
   @GetMapping(value = "/edit/{id}")
   public String showArticleCreationForm(@PathVariable("id") Long id, Model model) {
-    model.addAttribute("currentArticle", articleService.findByID(id));
+    if (articleService.findByID(id) != null) {
+      Article article = articleService.findByID(id);
+      model.addAttribute("currentArticle",
+        ArticleCreationRequestDto.builder()
+          .posterId(article.getPosterId())
+          .content(article.getContent())
+          .title(article.getTitle())
+          .build());
+      model.addAttribute("id", id);
+    }
     return "article-edit";
   }
-  @PostMapping("/update/{id}")
+
+  @PostMapping("/edit/{id}")
   public String updateArticle(@PathVariable("id") Long id,
                               @Valid ArticleCreationRequestDto articleDto) throws IOException {
-    Poster poster = posterService.store(articleDto.getPoster());
     articleService.update(id,
       Article.builder()
         .title(articleDto.getTitle())
         .content(articleDto.getContent())
-        .posterId(poster.getId())
+        .posterId(articleDto.getPosterId())
         .build());
-    return "redirect:/";
+    return "redirect:/articles";
+  }
+  @PostMapping("/article/delete/{id}")
+  public String updateArticle(@PathVariable("id") Long id) {
+    if (articleService.findByID(id) != null)
+      articleService.deleteById(id);
+    return "redirect:/articles";
   }
 
 }

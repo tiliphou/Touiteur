@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>HOME</title>
+
+  <link th:href="@{/css/styles.css}" rel="stylesheet"/>
+</head>
+
+<body>
+<div class="app">
+  <section class="side-bar">
+    <ul class="side-bar-list">
+      <li class="list-element selected-element">
+        <a class="side-bar-text" th:href="@{/articles/}">Articles</a>
+      </li>
+      <li class="list-element">
+        <a class="side-bar-text" th:href="@{/images/}">Images</a>
+      </li>
+      <li class="list-element ">
+        <a class="side-bar-text" th:href="@{/videos/}">Videos</a>
+      </li>
+    </ul>
+  </section>
+  <main id="main">
+    <header>
+      <nav>
+        <ul class="header-navbar">
+          <li>
+            <button type="submit" class="submit-btn new-post-btn">
+              <a th:href="@{/logout}" class="text-white">Logout</a>
+            </button>
+          </li>
+        </ul>
+      </nav>
+    </header>
+    <div class="main-content">
+      <div class="table-container">
+        <table class="article-table" cellspacing="0" cellpadding="0">
+          <thead class="table-header">
+          <tr>
+            <th class="table-cell"><span class="nav-link text-white"> ID </span></th>
+            <th class="table-cell"><span class="nav-link text-white"> Title </span></th>
+            <th class="table-cell"><span class="nav-link text-white"> Poster </span></th>
+            <th class="right-align table-cell">
+              <button tpe="button" class="submit-btn new-post-btn additional-width">
+                <a class="text-white" th:href="@{/article}">New Post</a>
+              </button>
+            </th>
+          </tr>
+          </thead>
+          <tbody class="table-body">
+          <tr class="navbar navbar-dark bg-dark"
+              th:if="${articles.empty}">
+            <td class="nav-item" colspan="2"> No Articles Available</td>
+          </tr>
+          <tr th:each="article : ${articles}" class="table-dark">
+            <td class="center-align table-cell"><span class="text-white" th:text="${article.id}"></span></td>
+            <td class="center-align table-cell"><span class="text-white" th:text="${article.title}"> </span></td>
+            <td class="center-align table-cell">
+              <img th:unless="${'/image/' + article.posterId} == null" th:src="@{${'/image/' + article.posterId}}"
+                  width="100px" height="100px" class="image"/>
+
+            </td>
+            <td class="right-align table-cell">
+              <button type="submit" class="submit-btn new-post-btn danger-btn deleted">
+                <a class="text-white"
+                   th:href="@{${'/article/delete/' + article.id}}">Delete</a>
+              </button>
+              <button type="submit" class="submit-btn new-post-btn">
+                <a class="text-white"
+                   th:href="@{${'/article/edit/' + article.id}}">Edit</a>
+              </button>
+            </td>
+          </tr>
+          </tbody>
+        </table>
+        </table>
+      </div>
+    </div>
+  </main>
+
+
+</div>
+
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p"
+        crossorigin="anonymous"></script>
+</body>
+
+</html>

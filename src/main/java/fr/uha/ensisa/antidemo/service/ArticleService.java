@@ -44,4 +44,9 @@ public class ArticleService implements IArticleService {
     articleFound.setTitle(article.getTitle());
     articleFound.setPosterId(article.getPosterId());
   }
+
+  @Override
+  public void deleteById(Long id) {
+    articleRepository.deleteById(id);
+  }
 }

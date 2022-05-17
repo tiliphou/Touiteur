@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta content="IE=edge" http-equiv="X-UA-Compatible">
+  <meta content="width=device-width, initial-scale=1.0" name="viewport">
+  <title>Image</title>
+
+  <link rel="stylesheet" th:href="@{/css/styles.css}"/>
+</head>
+
+<body>
+<div class="app">
+  <section class="side-bar">
+    <ul class="side-bar-list">
+      <li class="list-element">
+        <a class="side-bar-text" th:href="@{/articles/}">Articles</a>
+      </li>
+      <li class="list-element selected-element">
+        <a class="side-bar-text" th:href="@{/images/}">Images</a>
+      </li>
+      <li class="list-element ">
+        <a class="side-bar-text" th:href="@{/videos/}">Videos</a>
+      </li>
+    </ul>
+  </section>
+  <main id="main">
+    <header>
+      <nav>
+        <ul class="header-navbar">
+          <li>
+            <button type="submit" class="submit-btn new-post-btn">
+              <a th:href="@{/logout}" class="text-white">Logout</a>
+            </button>
+          </li>
+        </ul>
+      </nav>
+    </header>
+    <div class="main-content">
+
+    <nav class="control-navbar">
+      <ul>
+        <li class="unset-list-elem">
+          <form class="navbar-form" enctype="multipart/form-data" th:action="@{/upload-image}" th:method="post"
+                th:object="${image}">
+            <label for="image-input" class="submit-btn file-upload-label">Upload Image</label>
+            <input accept="image/png, image/jpeg" id="image-input" th:field="*{file}"
+                   name="image" onchange="form.submit()" type="file" style="visibility:hidden;"/>
+          </form>
+
+        </li>
+      </ul>
+    </nav>
+
+    <ul class="main-content">
+      <li class="image-container" th:each="image : ${images}">
+        <img class="image-element" th:alt="${image.name}" th:src="@{${'/image/' + image.id}}"
+             th:title="${image.name}"/>
+        <span class="select-element">Id : <a class="image-title" th:text="${image.id}"/></span>
+        <a class="image-title" th:href="@{${'/image/' + image.id}}" th:text="${image.name}"/>
+        <form method="POST" th:action="@{${'/delete-image/' + image.id}}" class="delete-image-form">
+          <button type="submit" class="danger-btn">Delete</button>
+        </form>
+      </li>
+    </ul>
+    </div>
+  </main>
+
+
+</div>
+
+
+<script crossorigin="anonymous"
+        integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p"
+        src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+
+</html>

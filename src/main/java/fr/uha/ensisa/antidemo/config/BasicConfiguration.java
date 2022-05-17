@@ -25,7 +25,7 @@ public class BasicConfiguration extends WebSecurityConfigurerAdapter {
         "/registration**",
         "/js/**",
         "/css/**",
-        "/img/**",
+        "/images/**",
         "/webjars/**").permitAll()
       .anyRequest().authenticated()
       .and()
