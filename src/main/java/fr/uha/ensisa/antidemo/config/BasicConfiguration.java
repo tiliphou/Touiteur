@@ -23,10 +23,18 @@ public class BasicConfiguration extends WebSecurityConfigurerAdapter {
       .authorizeRequests()
       .antMatchers(
         "/registration**",
+        "/index/**",
+        "/",
+        "/index",
+        "/image/**",
+        "/image",
         "/js/**",
         "/css/**",
         "/images/**",
-        "/webjars/**").permitAll()
+        "/webjars/**",
+        "/video/**",
+        "/image-exist/**"
+      ).permitAll()
       .anyRequest().authenticated()
       .and()
       .formLogin()

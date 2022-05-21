@@ -1,15 +1,15 @@
 package fr.uha.ensisa.antidemo.entity;
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotEmpty;
 
 @Entity
-@Data @Builder
+@Data
+@Getter
+@Setter
+@Builder
 @AllArgsConstructor @NoArgsConstructor
 public class Article {
   @Id
@@ -19,6 +19,7 @@ public class Article {
   @NotEmpty
   private String title;
   @NotEmpty
+  @Column(columnDefinition="TEXT")
   private String content;
   @NotEmpty
   private Long posterId;

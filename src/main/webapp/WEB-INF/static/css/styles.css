@@ -29,7 +29,7 @@
 }
 
 html {
-  background: var(--background-color);
+  background: var(--background-color)!important;
 }
 
 /*======================================================================
@@ -45,7 +45,8 @@ label,
 span,
 p {
   font-family: 'Open Sans', sans-serif;
-  color: var(--p_text-color);
+  color: var(--p_text-color)!important;
+  font-size: 1rem;
 }
 
 h1 {
@@ -81,7 +82,7 @@ a {
 }
 
 p, label {
-  font-size: .7rem;
+  font-size: 1rem;
   font-weight: 500;
 }
 
@@ -91,7 +92,7 @@ span {
 }
 
 .danger {
-  color: var(--danger-color);
+  color: var(--danger-color)!important;
 }
 
 /*======================================================================
@@ -107,20 +108,20 @@ ul {
                          Scrollbar Styling
 ========================================================================*/
 ::-webkit-scrollbar-track {
-  border: 1px solid var(--p_text-color);
-  background-color: #F5F5F5;
+  border: 1px solid var(--p_text-color)!important;
+  background-color: #F5F5F5!important;
   border-radius: 2px;
 }
 
 ::-webkit-scrollbar {
   width: 10px;
-  background-color: black;
+  background-color: black!important;
   border-radius: 2px;
 
 }
 
 ::-webkit-scrollbar-thumb {
-  background-color: var(--surface-color);
+  background-color: var(--surface-color)!important;
   border-radius: 2px;
 }
 
@@ -140,7 +141,7 @@ ul {
   height: 420px;
   width: 250px;
   padding: 20px 25px;
-  background-color: var(--surface-color);
+  background-color: var(--surface-color)!important;
   box-shadow: rgba(0, 0, 0, 0.18) 0 2px 4px;
   display: flex;
   flex-direction: column;
@@ -154,13 +155,13 @@ ul {
 .alert-danger {
   text-align: center;
   font-size: .9rem;
-  color: var(--danger-color);
+  color: var(--danger-color)!important;
 }
 
 .alert-info {
   text-align: center;
   font-size: .9rem;
-  color: var(--success-color);
+  color: var(--success-color)!important;
 }
 
 .form-input {
@@ -170,7 +171,7 @@ ul {
   font-family: "Lora", serif;
   width: 100%;
   color: var(--p_text-color);
-  background: var(--highlight-color);
+  background: var(--highlight-color)!important;
 }
 
 .col {
@@ -179,10 +180,10 @@ ul {
   display: flex;
   flex-direction: row;
   align-items: center;
-  border: 1px solid var(--p_text-color);
+  border: 1px solid var(--p_text-color)!important;
   border-radius: 2px;
   align-items: center;
-  background: var(--highlight-color);
+  background: var(--highlight-color)!important;
 
 }
 
@@ -203,12 +204,12 @@ label {
   align-items: center;
   justify-content: center;
   width: 100%;
-  background-color: var(--primary-color);
+  background-color: var(--primary-color)!important;
   cursor: pointer;
   font-size: 1.2rem;
   font-family: "Lora", serif;
   font-style: normal;
-  color: var(--s_text-color);
+  color: var(--s_text-color)!important;
   padding: 5px 0;
 }
 
@@ -219,12 +220,12 @@ label {
   align-items: center;
   justify-content: center;
   width: 100%;
-  background-color: var(--danger-color);
+  background-color: var(--danger-color)!important;
   cursor: pointer;
   font-size: .7rem;
   font-family: "Lora", serif;
   font-style: normal;
-  color: var(--s_text-color);
+  color: var(--s_text-color)!important;
   padding: 5px 0;
   width: 100%;
 }
@@ -234,7 +235,7 @@ label {
 }
 
 .register-btn {
-  color: var(--primary-color);
+  color: var(--primary-color)!important;
   font-weight: bolder;
   font-size: .8rem;
 }
@@ -257,7 +258,7 @@ label {
   flex-direction: row;
   justify-content: flex-end;
   align-items: center;
-  background: var(--highlight-color);
+  background: var(--highlight-color)!important;
 }
 
 li {
@@ -265,7 +266,7 @@ li {
 }
 
 li:hover {
-  border-bottom: 1px solid var(--p_text-color);
+  border-bottom: 1px solid var(--p_text-color)!important;
 }
 
 .header-navbar a {
@@ -281,14 +282,27 @@ li:hover {
   margin: 10px;
   display: flex;
   flex-direction: row;
-  justify-content: flex-start;
+  justify-content: center;
   align-items: center;
   flex-wrap: wrap;
-  background: var(--highlight-color);
+  background: var(--highlight-color)!important;
 
 }
+.post-index {
+  padding: 30px;
+}
+.single-poster {
+ width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+.post-content {
+  font-size: 1rem;
+}
 
-
+.post #main
 .image-container {
   width: 150px;
 
@@ -297,7 +311,7 @@ li:hover {
   display: flex;
   flex-direction: column;
   align-items: center;
-  background: var(--surface-color);
+  background: var(--surface-color)!important;
   overflow: hidden;
 
 
@@ -316,7 +330,7 @@ nav .control-navbar {
   flex-direction: row;
   justify-content: flex-end;
   align-items: center;
-  background: var(--highlight-color);
+  background: var(--highlight-color)!important;
   margin-bottom: 10px;
 
 }
@@ -368,7 +382,7 @@ form .navbar-form {
 .side-bar {
   flex: 1;
   height: 100vh;
-  background: var(--highlight-color);
+  background: var(--highlight-color)!important;
 }
 
 .side-bar-list {
@@ -385,7 +399,7 @@ form .navbar-form {
 }
 
 .selected-element {
-  background: var(--surface-color);
+  background: var(--surface-color)!important;
 }
 
 .side-bar-text {
@@ -404,18 +418,18 @@ form .navbar-form {
 .article-table {
   width: 100%;
   border: none;
-  background: var(--highlight-color);
+  background: var(--highlight-color)!important;
   border-collapse: collapse;
 
 }
 
 .table-header {
-  background: var(--surface-color);
+  background: var(--surface-color)!important;
 }
 
 .table-cell {
   padding: 10px;
-  border-bottom: 1px solid var(--surface-color);
+  border-bottom: 1px solid var(--surface-color)!important;
 }
 
 .new-post-btn {
@@ -445,7 +459,7 @@ form .navbar-form {
 }
 
 .post-form-col {
-  background: var(--highlight-color);
+  background: var(--highlight-color)!important;
 }
 
 .form-label {
@@ -487,4 +501,39 @@ form .navbar-form {
 
 .center-align {
   text-align: center;
+}
+.header-list {
+  all: unset;
+
+}
+.header-text {
+  padding: 10px;
+  margin: 10px;
+}
+.navbar-element:hover {
+  border-bottom: 1px solid var(--p_text-color);
+}
+.navbar-element {
+  display: flex;
+  align-items: center;
+  padding: 10px;
+}
+.navbar {
+  display: flex;
+  justify-content: space-between;
+}
+.search-input {
+  padding: 10px;
+  font-family: 'Open Sans', sans-serif;
+  font-weight: 700;
+}
+.search-btn {
+  all: unset;
+  background: var(--primary-color);
+  color: var(--p_text-color);
+  padding: 12px;
+}
+.disable-hover:hover {
+  border-bottom: 0px!important;
+
 }
