@@ -69,7 +69,7 @@ public class ArticleScreenController {
         .build());
     return "redirect:/articles";
   }
-  @PostMapping("/delete/{id}")
+  @GetMapping("/delete/{id}")
   public String updateArticle(@PathVariable("id") Long id) {
     if (articleService.findByID(id) != null)
       articleService.deleteById(id);
