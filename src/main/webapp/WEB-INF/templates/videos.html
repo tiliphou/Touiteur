@@ -15,6 +15,9 @@
   <section class="side-bar">
     <ul class="side-bar-list">
       <li class="list-element">
+        <a class="side-bar-text" th:href="@{/}">Home</a>
+      </li>
+      <li class="list-element">
         <a class="side-bar-text" th:href="@{/articles/}">Articles</a>
       </li>
       <li class="list-element ">
@@ -59,7 +62,7 @@
              th:title="${video.name}"/>-->
         <video th:src="@{${'/video/embed/' + video.id}}" width="400px" height="280px" controls autoplay >
         </video>
-        <a class="image-title" th:href="@{${'/video/' + video.id}}" th:text="${video.name}"/>
+        <a class="image-title" th:href="@{${'http://localhost:8082/video/' + video.id}}" th:text="${video.name}"/>
         <form method="POST" th:action="@{${'/delete-video/' + video.id}}" class="delete-image-form">
           <button type="submit" class="danger-btn">Delete</button>
         </form>

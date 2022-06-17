@@ -1,6 +1,6 @@
 const searchInput = document.getElementById("search-input")
 const ArticlesList = document.getElementById("articles-list")
-const SEARCH_URL = "http://localhost:8091/index/search/";
+const SEARCH_URL = "http://localhost:8091/index/search-element/";
 searchInput.addEventListener("keyup", search)
 
 async function search() {

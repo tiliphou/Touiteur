@@ -25,9 +25,11 @@ public class SearchController {
 
   private final IArticleService articleService;
 
-  @GetMapping("/index/search/{text}")
+  @GetMapping("/index/search-element/{text}")
   public ResponseEntity<List<Map<String, String>>> search(@PathVariable("text") String text) throws JSONException {
-    List<Article> articles = articleService.getArticleByPartOfTitle(text);
+    List<Article> articles;
+    if (text.equals("all-9893"))  articles = articleService.getAll();
+    else articles = articleService.getArticleByPartOfTitle(text);
     List<Map<String, String>> result = new ArrayList<>();
     for (Article article : articles) {
       Map<String, String> element = new HashMap();

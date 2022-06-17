@@ -12,4 +12,6 @@ public interface ArticleRepository extends JpaRepository<Article, Long> {
 
   @Query("select a from Article a where a.title = :text ")
   Optional<List<Article>> getArticleByPartOfTitle(@Param("text") String text);
+  List<Article> findAllByOrderByCreationDateDesc();
+  Optional<List<Article>> findArticleByTitleIsContainingIgnoreCase(@Param("text") String text);
 }

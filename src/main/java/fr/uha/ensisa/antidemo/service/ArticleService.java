@@ -9,6 +9,7 @@ import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
@@ -20,18 +21,20 @@ public class ArticleService implements IArticleService {
   private final ArticleRepository articleRepository;
   @Override
   public void save(Article article) {
+
     articleRepository.save(
       Article.builder()
         .title(article.getTitle())
         .content(article.getContent())
         .posterId(article.getPosterId())
+        .creationDate(new Date())
         .build()
     );
   }
 
   @Override
   public List<Article> getAll() {
-    return articleRepository.findAll();
+    return articleRepository.findAllByOrderByCreationDateDesc();
   }
 
   @Override
@@ -54,7 +57,7 @@ public class ArticleService implements IArticleService {
 
   @Override
   public List<Article> getArticleByPartOfTitle(String text) {
-    Optional<List<Article>> articles = articleRepository.getArticleByPartOfTitle(text);
+    Optional<List<Article>> articles = articleRepository.findArticleByTitleIsContainingIgnoreCase(text);
     if (articles == null) return  null;
     return articles.get();
   }

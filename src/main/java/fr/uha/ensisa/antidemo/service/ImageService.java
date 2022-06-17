@@ -26,6 +26,9 @@ public class ImageService implements IImageService {
       .build());
   }
 
+  public Image store(Image image) throws IOException {
+    return imageRepository.save(image);
+  }
   @Override
   public List<Image> getAll() {
     return imageRepository.findAll();

@@ -23,4 +23,7 @@ public class Article {
   private String content;
   @NotEmpty
   private Long posterId;
+  @Basic
+  @Temporal(TemporalType.TIMESTAMP)
+  private java.util.Date creationDate;
 }

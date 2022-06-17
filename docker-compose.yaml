@@ -1,0 +1,32 @@
+version: '3.7'
+
+services:
+  main-db:
+    image: mysql
+    environment:
+      - MYSQL_DATABASE=userEntity-db
+      - MYSQL_ROOT_PASSWORD=root
+      - MYSQL_USER= $MYSQL_USER
+      - MYSQL_PASSWORD=$MYSQL_PASSWORD
+    restart: always
+    networks:
+      - antidemo-main
+    volumes:
+      - mysql-main:/var/lib/mysql
+    ports:
+      - 5001:3306
+  main-web-server:
+    build: ./docker-files/
+    restart: always
+    networks:
+      - antidemo-main
+    volumes:
+      - statics-main:/var/www/statics
+    ports:
+      - "8082:80"
+
+volumes:
+  mysql-main:
+  statics-main:
+networks:
+  antidemo-main:

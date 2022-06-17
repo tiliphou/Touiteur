@@ -15,6 +15,9 @@
   <section class="side-bar">
     <ul class="side-bar-list">
       <li class="list-element">
+        <a class="side-bar-text" th:href="@{/}">Home</a>
+      </li>
+      <li class="list-element">
         <a class="side-bar-text" th:href="@{/articles/}">Articles</a>
       </li>
       <li class="list-element selected-element">
@@ -55,7 +58,7 @@
 
     <ul class="main-content">
       <li class="image-container" th:each="image : ${images}">
-        <img class="image-element" th:alt="${image.name}" th:src="@{${'/image/' + image.id}}"
+        <img class="image-element" th:alt="${image.name}" th:src="@{${'http://localhost:8082/image/' + image.id}}"
              th:title="${image.name}"/>
         <span class="select-element">Id : <a class="image-title" th:text="${image.id}"/></span>
         <a class="image-title" th:href="@{${'/image/' + image.id}}" th:text="${image.name}"/>

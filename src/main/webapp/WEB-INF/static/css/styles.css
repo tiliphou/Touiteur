@@ -60,7 +60,7 @@ h2 {
 }
 
 h3 {
-  font-size: 1.1rem;
+  font-size: 1rem;
   font-weight: 700;
 }
 
@@ -535,5 +535,50 @@ form .navbar-form {
 }
 .disable-hover:hover {
   border-bottom: 0px!important;
+}
+.header-main {
+  padding-top: 0;
+  padding-left: 10px;
+  padding-right: 10px;
+  padding-bottom: 0;
+  background-color: var(--surface-color);
+}
+.nav-container {
+ display: flex;
+  flex-direction: row;
+}
+.nav-element {
+  padding-left: 10px;
+  padding-right: 10px;
+  font-size: 1rem;
+  color: var(--p_text-color);
+  cursor: pointer;
 
+}
+.authentication-btn {
+  margin-left: 10px;
+  padding-left: 30px;
+  padding-right: 30px;
+  border-radius: 5px;
+  cursor: pointer;
+}
+.authentication-btn:hover {
+  background-color: var(--highlight-color);
+  border-width: 1px;
+  border-color: var(--primary-color);
+  border-style: solid;
+  color: var(--primary-color)!important;
+}
+.image-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+.select-element {
+  display: flex;
+  justify-content: center;
+}
+.image-title {
+  display: flex;
+  justify-content: center;
 }

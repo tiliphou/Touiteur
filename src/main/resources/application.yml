@@ -10,8 +10,8 @@ spring:
   datasource:
     driverClassName: com.mysql.cj.jdbc.Driver
     url: jdbc:mysql://localhost:5001/userEntity-db
-    username: root
-    password: root
+    username: user
+    password: user
 
   # Configuring JPA
   jpa:
