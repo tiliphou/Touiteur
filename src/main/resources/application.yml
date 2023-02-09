@@ -9,7 +9,7 @@ spring:
   # Setting up the datasource to mysql
   datasource:
     driverClassName: com.mysql.cj.jdbc.Driver
-    url: jdbc:mysql://localhost:5001/userEntity-db
+    url: jdbc:mysql://localhost:3306/antidemo
     username: user
     password: user
 
