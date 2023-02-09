@@ -1,12 +1,12 @@
 version: '3.7'
 
 services:
-  main-db:
+  db:
     image: mysql
     environment:
       - MYSQL_DATABASE=antidemo
       - MYSQL_ROOT_PASSWORD=root
-      - MYSQL_USER= $MYSQL_USER
+      - MYSQL_USER=$MYSQL_USER
       - MYSQL_PASSWORD=$MYSQL_PASSWORD
     restart: always
     networks:
@@ -15,6 +15,19 @@ services:
       - mysql-main:/var/lib/mysql
     ports:
       - 3306:3306
+  app:
+    image: antidemo
+    build: .
+    restart: always
+    environment:
+      - DATABASE_HOST=db
+      - DATABASE_TABLE=antidemo
+      - DATABASE_USER=$MYSQL_USER
+      - DATABASE_PASSWORD=$MYSQL_PASSWORD
+    networks:
+      - antidemo-main
+    ports:
+      - 8091:8091
   main-web-server:
     build: ./docker-files/
     restart: always
@@ -24,7 +37,7 @@ services:
       - statics-main:/var/www/statics
     ports:
       - "8082:80"
-
+    # TODO : wait for DB to be up and running
 volumes:
   mysql-main:
   statics-main:
