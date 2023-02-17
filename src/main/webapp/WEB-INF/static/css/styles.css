@@ -526,6 +526,7 @@ form .navbar-form {
   padding: 10px;
   font-family: 'Open Sans', sans-serif;
   font-weight: 700;
+  color: darkgrey;
 }
 .search-btn {
   all: unset;

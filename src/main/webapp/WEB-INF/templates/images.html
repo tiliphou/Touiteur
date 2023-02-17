@@ -58,11 +58,11 @@
 
     <ul class="main-content">
       <li class="image-container" th:each="image : ${images}">
-        <img class="image-element" th:alt="${image.name}" th:src="@{${'http://localhost:8082/image/' + image.id}}"
+        <img height="100px" th:alt="${image.name}" th:src="@{'/image/' + ${image.id}}"
              th:title="${image.name}"/>
-        <span class="select-element">Id : <a class="image-title" th:text="${image.id}"/></span>
-        <a class="image-title" th:href="@{${'/image/' + image.id}}" th:text="${image.name}"/>
-        <form method="POST" th:action="@{${'/delete-image/' + image.id}}" class="delete-image-form">
+        <span class="select-element">Image:[(${image.id})][100]</span>
+        <a class="image-title" th:href="@{'/image/' + ${image.id}}" th:text="${image.name}"/>
+        <form method="POST" th:action="@{'/delete-image/' + ${image.id}}" class="delete-image-form">
           <button type="submit" class="danger-btn">Delete</button>
         </form>
       </li>

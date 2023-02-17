@@ -1,17 +1,18 @@
-const searchInput = document.getElementById("search-input")
-const ArticlesList = document.getElementById("articles-list")
-const SEARCH_URL = "http://localhost:8091/index/search-element/";
-searchInput.addEventListener("keyup", search)
+const searchInput = document.getElementById("search-input");
+const articlesList = document.getElementById("articles-list");
+const checkForNewArticleDuration = 1000;
+searchInput && searchInput.addEventListener("keyup", search);
 
 async function search() {
-    let searchInputValue = document.getElementById("search-input").value
+    if (! searchInput) return;
+    let searchInputValue = searchInput.value
     try {
-        const response = await fetch(SEARCH_URL + searchInputValue, {
-            method: 'GEt',
+        const response = await fetch("/index/search-element/" + searchInputValue, {
+            method: 'GET',
             mode: 'no-cors',
         });
         const list = await response.json();
-        ArticlesList.innerHTML = "";
+        articlesList.innerHTML = "";
         for (let i in list) {
             if (!list[i].title) break;
             const li =document.createElement( 'LI');
@@ -20,14 +21,14 @@ async function search() {
             li.style = "display: flex; flex-direction: column; align-items: center; justify-content: center"
             const img = document.createElement('IMG');
             img.className = "image-element"
-            img.src="http://localhost:8091/image/" + list[i].posterID;
+            img.src= "/image/" + list[i].posterID;
             const a = document.createElement("a");
             a.className="image-title";
             a.innerText = list[i].title
             const a2 = document.createElement("a");
             a2.className ="delete-image-form"
             const button = document.createElement("button");
-            a2.href = "http://localhost:8091/index/article/" + list[i].id
+            a2.href = "/index/article/" + list[i].id
             button.className = "danger-btn";
             button.type="submit"
             button.innerText = "Read more..."
@@ -35,7 +36,7 @@ async function search() {
             li.appendChild(img)
             li.appendChild(a)
             li.appendChild(a2)
-            ArticlesList.appendChild(li);
+            articlesList.appendChild(li);
             console.log(list[i])
         }
     } catch (err) {
@@ -45,13 +46,13 @@ async function search() {
 
 const getAllArticle = async () => {
     try {
-        const response = await fetch(SEARCH_URL + "all-9893", {
-            method: 'GEt',
+        const response = await fetch("/index/search-element/all-9893", {
+            method: 'GET',
             mode: 'no-cors',
         });
         const list = await response.json();
-        if (list.length === dataArray.length) return;
-        ArticlesList.innerHTML = "";
+        if (list.length === articlesList.childElementCount) return;
+        articlesList.innerHTML = "";
         for (let i in list) {
             if (!list[i].title) break;
             const li =document.createElement( 'LI');
@@ -59,15 +60,15 @@ const getAllArticle = async () => {
             li.className = "image-container";
             li.style = "display: flex; flex-direction: column; align-items: center; justify-content: center"
             const img = document.createElement('IMG');
-            img.className = "image-element"
-            img.src="http://localhost:8091/image/" + list[i].posterID;
+            img.height = 100;
+            img.src= "/image/" + list[i].posterID;
             const a = document.createElement("a");
             a.className="image-title";
             a.innerText = list[i].title
             const a2 = document.createElement("a");
             a2.className ="delete-image-form"
             const button = document.createElement("button");
-            a2.href = "http://localhost:8091/index/article/" + list[i].id
+            a2.href = "/index/article/" + list[i].id
             button.className = "danger-btn";
             button.type="submit"
             button.innerText = "Read more..."
@@ -75,7 +76,7 @@ const getAllArticle = async () => {
             li.appendChild(img)
             li.appendChild(a)
             li.appendChild(a2)
-            ArticlesList.appendChild(li);
+            articlesList.appendChild(li);
             console.log(list[i])
         }
     } catch (err) {
@@ -83,6 +84,6 @@ const getAllArticle = async () => {
 
     }
 }
-setInterval(getAllArticle, CHECK_FOR_NEW_ARTICLE_DURATION)
+setInterval(getAllArticle, checkForNewArticleDuration)
 
 

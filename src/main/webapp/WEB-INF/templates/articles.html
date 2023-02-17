@@ -64,8 +64,8 @@
             <td class="center-align table-cell"><span class="text-white" th:text="${article.id}"></span></td>
             <td class="center-align table-cell"><span class="text-white" th:text="${article.title}"> </span></td>
             <td class="center-align table-cell">
-              <img th:unless="${'/image/' + article.posterId} == null" th:src="@{${'http://localhost:8082/image/' + article.posterId}}"
-                  width="100px" height="100px" class="image"/>
+              <img th:unless="${'/image/' + article.posterId} == null" th:src="@{'/image/' + ${article.posterId}}"
+                  height="100px" class="image"/>
 
             </td>
             <td class="right-align table-cell">

@@ -58,12 +58,10 @@
 
     <ul class="main-content">
       <li class="image-container non-size" th:each="video : ${videos}">
-        <!--<img class="image-element" th:alt="${video.name}" th:src="@{${'/image/' + video.id}}"
-             th:title="${video.name}"/>-->
-        <video th:src="@{${'/video/embed/' + video.id}}" width="400px" height="280px" controls autoplay >
-        </video>
-        <a class="image-title" th:href="@{${'http://localhost:8082/video/' + video.id}}" th:text="${video.name}"/>
-        <form method="POST" th:action="@{${'/delete-video/' + video.id}}" class="delete-image-form">
+        <video th:src="@{${'/video/embed/' + video.id}}" height="280px" controls ></video>
+        <span class="select-element">Video:[(${video.id})][280]</span>
+        <a class="image-title" th:href="@{'/video/' + ${video.id}}" th:text="${video.name}"/>
+        <form method="POST" th:action="@{'/delete-video/' + ${video.id}}" class="delete-image-form">
           <button type="submit" class="danger-btn">Delete</button>
         </form>
       </li>

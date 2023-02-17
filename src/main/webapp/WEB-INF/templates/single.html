@@ -28,7 +28,7 @@
             <a href="/"><h3>ANTIDEMO</h3></a>
           </div>
           <div class="navbar-element">
-            <a class="nav-element" th:href="@{http://localhost:8082/index/search}">Search</a>
+            <a class="nav-element" th:href="@{/index/search}">Search</a>
           </div>
         </div>
         <div class="navbar-element disable-hover">
@@ -45,12 +45,12 @@
       <div class="single-poster">
         <h2 th:text="${article.title}"/>
 
-        <img class="image-element" th:alt="${article.title}" th:src="@{${'http://localhost:8082/image/' + article.posterId}}"
+        <img height="300px" th:alt="${article.title}" th:src="@{'/image/' + ${article.posterId}}"
              th:title="${article.title}"/>
       </div>
 
       <div class="post-content">
-        [(${article.content})]
+        [(${article.html})]
 
       </div>
       </video>
