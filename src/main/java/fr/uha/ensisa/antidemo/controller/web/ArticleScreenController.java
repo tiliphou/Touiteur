@@ -38,6 +38,7 @@ public class ArticleScreenController {
         .posterId(articleDto.getPosterId())
         .content(articleDto.getContent())
         .title(articleDto.getTitle())
+        .readCount(0l)
         .build()
     );
     return "redirect:/articles";

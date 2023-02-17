@@ -11,6 +11,9 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.util.UriUtils;
+
+import java.net.URLEncoder;
 
 import javax.validation.Valid;
 
@@ -40,11 +43,19 @@ public class UserRegistrationController {
       result.rejectValue("email", null, "There is already an account registered with that email");
     }
 
+    if (userDto.getPassword() == null ||
+        userDto.getPassword().length() < 2) {
+        result.rejectValue("password", "Password too short");
+    }
+    if (!userDto.getPassword().equals(userDto.getPasswordConfirmation())) {
+        result.rejectValue("password", "Passwords differ");
+    }
+
     if (result.hasErrors()) {
       return "registration";
     }
 
     IUserService.save(userDto);
-    return "redirect:/registration?success";
+    return "redirect:/login?user=" + UriUtils.encodeQueryParam(userDto.getEmail(), "UTF-8") ;
   }
 }

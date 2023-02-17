@@ -28,7 +28,7 @@
         <img th:src="@{/images/profile-user.png}" class="label-icon" alt="user icon" title="user icon"/>
       </label>
 
-      <input type="email" class="form-input" id="username" name="username" autofocus="autofocus" placeholder="email"/>
+      <input type="email" class="form-input" id="username" name="username" autofocus="autofocus" placeholder="email" th:value="${login}"/>
     </div>
 
     <div class="col">

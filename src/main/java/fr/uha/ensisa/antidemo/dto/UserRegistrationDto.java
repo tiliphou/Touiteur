@@ -16,5 +16,7 @@ public class UserRegistrationDto {
   private String email;
   @NotEmpty
   private String password;
+  @NotEmpty
+  private String passwordConfirmation;
 
 }

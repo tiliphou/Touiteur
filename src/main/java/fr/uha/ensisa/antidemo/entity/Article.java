@@ -26,6 +26,9 @@ public class Article {
   @Basic
   @Temporal(TemporalType.TIMESTAMP)
   private java.util.Date creationDate;
+  @NotEmpty
+  @Column(nullable = false, columnDefinition = "bigint DEFAULT 0")
+  private long readCount;
 
   public String getHtml() {
     return this.getContent()

@@ -48,6 +48,14 @@
       </label>
       <input class="form-input" id="password" th:field="*{password}" type="password" placeholder="Password" required/>
     </div>
+
+    <div class="col">
+
+      <label class="control-label" for="password">
+        <img th:src="@{/images/password.png}" class="label-icon" alt="user icon" title="user icon"/>
+      </label>
+      <input class="form-input" id="passwordConfirmation" th:field="*{passwordConfirmation}" type="password" placeholder="Confirm password" required/>
+    </div>
     <button type="submit" class="submit-btn">Register</button>
     <span class="register-text">
         Already have an account?

@@ -7,6 +7,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestParam;
 
 @Controller
 @RequiredArgsConstructor
@@ -31,6 +32,7 @@ public class MainController {
   @GetMapping("/index/article/{id}")
   public String index(Model model, @PathVariable("id") Long id) {
     model.addAttribute("article", articleService.findByID(id));
+    articleService.incrementReads(id, 1);
     return "single";
   }
 
@@ -42,9 +44,24 @@ public class MainController {
   }
 
 
+  @GetMapping("/reads")
+  public String reads(Model model) {
+    model.addAttribute("articles", articleService.getAllByReadCount());
+    return "articles";
+  }
+
+
+  @GetMapping("/creationdate")
+  public String creaitonDate(Model model) {
+    model.addAttribute("articles", articleService.getAllByCreationDate());
+    return "articles";
+  }
+
+
 
   @GetMapping("/login")
-  public String login(Model model) {
+  public String login(Model model, @RequestParam(required = false) String user) {
+    model.addAttribute("login", user != null ? user : "");
     return "authentication";
   }
 

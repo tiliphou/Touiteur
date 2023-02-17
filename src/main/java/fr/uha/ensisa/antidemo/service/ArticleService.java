@@ -27,6 +27,7 @@ public class ArticleService implements IArticleService {
         .title(article.getTitle())
         .content(article.getContent())
         .posterId(article.getPosterId())
+        .readCount(article.getReadCount())
         .creationDate(new Date())
         .build()
     );
@@ -34,6 +35,16 @@ public class ArticleService implements IArticleService {
 
   @Override
   public List<Article> getAll() {
+    return articleRepository.findAllByOrderByIdDesc();
+  }
+
+  @Override
+  public List<Article> getAllByReadCount() {
+    return articleRepository.findAllByOrderByReadCountDesc();
+  }
+
+  @Override
+  public List<Article> getAllByCreationDate() {
     return articleRepository.findAllByOrderByCreationDateDesc();
   }
 
@@ -60,5 +71,10 @@ public class ArticleService implements IArticleService {
     Optional<List<Article>> articles = articleRepository.findArticleByTitleIsContainingIgnoreCase(text);
     if (articles == null) return  null;
     return articles.get();
+  }
+
+  @Override
+  public void incrementReads(long id, long incr) {
+    articleRepository.incrementReads(id, incr);
   }
 }
