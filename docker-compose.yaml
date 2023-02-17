@@ -4,17 +4,23 @@ services:
   db:
     image: mysql
     environment:
-      - MYSQL_DATABASE=antidemo
       - MYSQL_ROOT_PASSWORD=root
+      - MYSQL_DATABASE=antidemo
       - MYSQL_USER=$MYSQL_USER
       - MYSQL_PASSWORD=$MYSQL_PASSWORD
+      - TZ=Europe/Paris
     restart: always
     networks:
-      - antidemo-main
+      - db
     volumes:
-      - mysql-main:/var/lib/mysql
+      - db:/var/lib/mysql
     ports:
       - 3306:3306
+    healthcheck:
+      test: sh -c 'mysqladmin -p$MYSQL_ROOT_PASSWORD ping'
+      interval: 5s
+      timeout: 10s
+      start_period: 30s
   app:
     image: antidemo
     build: .
@@ -25,21 +31,27 @@ services:
       - DATABASE_USER=$MYSQL_USER
       - DATABASE_PASSWORD=$MYSQL_PASSWORD
     networks:
-      - antidemo-main
-    ports:
-      - 8091:8091
-  main-web-server:
-    build: ./docker-files/
+      - db
+      - front
+    depends_on:
+      db:
+        condition: service_healthy
+  proxy:
+    image: nginx:alpine # https://hub.docker.com/_/nginx
     restart: always
+    environment:
+      - NGINX_PORT=8082
+      - NGINX_PUBLISHED_PORT=8082
+      - NGINX_PROXY_HOST=app
+      - NGINX_PROXY_PORT=8091
     networks:
-      - antidemo-main
+      - front
     volumes:
-      - statics-main:/var/www/statics
+      - ./nginx_config:/etc/nginx/templates
     ports:
-      - "8082:80"
-    # TODO : wait for DB to be up and running
+      - 8082:8082 # Must be NGINX_PUBLISHED_PORT:NGINX_PORT
 volumes:
-  mysql-main:
-  statics-main:
+  db:
 networks:
-  antidemo-main:
+  front:
+  db:
