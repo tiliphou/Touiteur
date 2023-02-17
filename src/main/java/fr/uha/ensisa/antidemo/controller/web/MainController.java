@@ -14,7 +14,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 public class MainController {
 
   private final IArticleService articleService;
-  private final IImageService imageService;
 
 
   @GetMapping("/")
@@ -34,27 +33,6 @@ public class MainController {
     model.addAttribute("article", articleService.findByID(id));
     articleService.incrementReads(id, 1);
     return "single";
-  }
-
-
-  @GetMapping("/articles")
-  public String articles(Model model) {
-    model.addAttribute("articles", articleService.getAll());
-    return "articles";
-  }
-
-
-  @GetMapping("/reads")
-  public String reads(Model model) {
-    model.addAttribute("articles", articleService.getAllByReadCount());
-    return "articles";
-  }
-
-
-  @GetMapping("/creationdate")
-  public String creaitonDate(Model model) {
-    model.addAttribute("articles", articleService.getAllByCreationDate());
-    return "articles";
   }
 
 

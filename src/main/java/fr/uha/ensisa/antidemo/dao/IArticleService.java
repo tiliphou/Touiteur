@@ -9,9 +9,17 @@ public interface IArticleService {
 
   List<Article> getAll();
 
-  List<Article> getAllByReadCount();
+  List<Article> getAllByIdDesc();
+  List<Article> getAllByIdAsc();
 
-  List<Article> getAllByCreationDate();
+  List<Article> getAllByTitleDesc();
+  List<Article> getAllByTitleAsc();
+
+  List<Article> getAllByReadCountDesc();
+  List<Article> getAllByReadCountAsc();
+
+  List<Article> getAllByCreationDateDesc();
+  List<Article> getAllByCreationDateAsc();
 
   Article findByID(Long id);
 

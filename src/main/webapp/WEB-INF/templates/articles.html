@@ -45,11 +45,11 @@
         <table class="article-table" id="article-table" cellspacing="0" cellpadding="0">
           <thead class="table-header">
           <tr>
-            <th class="table-cell"><span class="nav-link text-white"> ID <a th:href="@{/articles}">&#9660;</a> </span></th>
-            <th class="table-cell"><span class="nav-link text-white"> Date <a th:href="@{/creationdate}">&#9660;</a> </span></th>
-            <th class="table-cell"><span class="nav-link text-white"> Title </span></th>
+            <th class="table-cell"><span class="nav-link text-white"> ID <a th:href="@{/articles/id/asc}">&#9650;</a><a th:href="@{/articles/id/desc}">&#9660;</a> </span></th>
+            <th class="table-cell"><span class="nav-link text-white"> Date <a th:href="@{/articles/creationdate/asc}">&#9650;</a><a th:href="@{/articles/creationdate/desc}">&#9660;</a> </span></th>
+            <th class="table-cell"><span class="nav-link text-white"> Title <a th:href="@{/articles/title/asc}">&#9650;</a><a th:href="@{/articles/title/desc}">&#9660;</a> </span></th>
             <th class="table-cell"><span class="nav-link text-white"> Poster </span></th>
-            <th class="table-cell"><span class="nav-link text-white"> Reads <a th:href="@{/reads}">&#9660;</a> </span></th>
+            <th class="table-cell"><span class="nav-link text-white"> Reads <a th:href="@{/articles/reads/asc}">&#9650;</a> <a th:href="@{/articles/reads/desc}">&#9660;</a> </span></th>
             <th class="right-align table-cell">
               <button tpe="button" class="submit-btn new-post-btn additional-width">
                 <a class="text-white" th:href="@{/article}">New Post</a>

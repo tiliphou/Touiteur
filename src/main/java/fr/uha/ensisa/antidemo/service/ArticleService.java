@@ -39,13 +39,43 @@ public class ArticleService implements IArticleService {
   }
 
   @Override
-  public List<Article> getAllByReadCount() {
+  public List<Article> getAllByIdDesc() {
+    return articleRepository.findAllByOrderByIdDesc();
+  }
+
+  @Override
+  public List<Article> getAllByIdAsc() {
+    return articleRepository.findAllByOrderByIdAsc();
+  }
+
+  @Override
+  public List<Article> getAllByTitleDesc() {
+    return articleRepository.findAllByOrderByTitleDesc();
+  }
+
+  @Override
+  public List<Article> getAllByTitleAsc() {
+    return articleRepository.findAllByOrderByTitleAsc();
+  }
+
+  @Override
+  public List<Article> getAllByReadCountDesc() {
     return articleRepository.findAllByOrderByReadCountDesc();
   }
 
   @Override
-  public List<Article> getAllByCreationDate() {
+  public List<Article> getAllByReadCountAsc() {
+    return articleRepository.findAllByOrderByReadCountAsc();
+  }
+
+  @Override
+  public List<Article> getAllByCreationDateDesc() {
     return articleRepository.findAllByOrderByCreationDateDesc();
+  }
+
+  @Override
+  public List<Article> getAllByCreationDateAsc() {
+    return articleRepository.findAllByOrderByCreationDateAsc();
   }
 
   @Override
