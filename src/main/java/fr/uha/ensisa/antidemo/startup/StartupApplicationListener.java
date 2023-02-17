@@ -85,9 +85,12 @@ public class StartupApplicationListener implements ApplicationListener<ContextRe
           "https://svn.ensisa.uha.fr/bd/vid/sunset.jpg"
         };
 
+        int imgReplication = 10;
         try {
-            for (int i = 0; i < listOfImagUrl.length; ++i) {
-                imageService.store(Image.builder().data(getFromNetByUrl(listOfImagUrl[i])).name(Path.of(listOfImagUrl[i]).getFileName().toString()).type("png").build());
+            for (; imgReplication > 0; imgReplication--) {
+                for (int i = 0; i < listOfImagUrl.length; ++i) {
+                    imageService.store(Image.builder().data(getFromNetByUrl(listOfImagUrl[i])).name(Path.of(listOfImagUrl[i]).getFileName().toString()).type("png").build());
+                }
             }
         } catch (Exception e) {
             throw new RuntimeException(e);
@@ -111,7 +114,7 @@ public class StartupApplicationListener implements ApplicationListener<ContextRe
           "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.\n";
           
         for (int i = 0; i < NUMBER_OF_ARTICLE; i++) {
-            articleService.save(Article.builder().content(content+"Image:"+(rand.nextInt(listOfImagUrl.length)+1)+"[200]\nVideo:"+(rand.nextInt(listOfVidUrl.length)+1)+"[280]").posterId(Long.valueOf(rand.nextInt(listOfImagUrl.length)+1)).title("Exemple - " + i).readCount(0l).build());
+            articleService.save(Article.builder().content(content+"Image:"+(rand.nextInt(listOfImagUrl.length*5)+1)+"[200]\nVideo:"+(rand.nextInt(listOfVidUrl.length)+1)+"[280]").posterId(Long.valueOf(rand.nextInt(listOfImagUrl.length*5)+1)).title("Exemple - " + i).readCount(0l).build());
         }
 
     }
