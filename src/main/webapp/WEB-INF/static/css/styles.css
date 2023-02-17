@@ -10,14 +10,14 @@
 :root {
   --primary-color: #01c29a;
 
-  --background-color: #000000;
-  --surface-color: #121418; /*#ffffff;*/
-  --highlight-color: #1b1f24;
-  --p_text-color: #ffffff;
-  --s_text-color: #ffffff;
+  --background-color: white;
+  --surface-color: #f19a5f; /*#ffffff;*/
+  --highlight-color: #f6ddcc;
+  --p_text-color: black;
+  --s_text-color: black;
   --p_icon-color: #2e2e30;
   --s_icon-color: #919191;
-  --danger-color: #de425a;
+  --danger-color: #e9660e;
   --success-color: #4db384;
 
 }
@@ -209,7 +209,7 @@ label {
   background-color: var(--primary-color)!important;
   cursor: pointer;
   font-size: 1.2rem;
-  font-family: "Lora", serif;
+  font-family: 'Open Sans', sans-serif;
   font-style: normal;
   color: var(--s_text-color)!important;
   padding: 5px 0;
@@ -225,7 +225,7 @@ label {
   background-color: var(--danger-color)!important;
   cursor: pointer;
   font-size: .7rem;
-  font-family: "Lora", serif;
+  font-family: 'Open Sans', sans-serif;
   font-style: normal;
   color: var(--s_text-color)!important;
   padding: 5px 0;
