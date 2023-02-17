@@ -27,11 +27,6 @@ public class MainController {
     model.addAttribute("articles", articleService.getAll());
     return "index";
   }
-  @GetMapping("/index/search")
-  public String search(Model model) {
-    model.addAttribute("articles", articleService.getAll());
-    return "search";
-  }
 
   @GetMapping("/index/article/{id}")
   public String index(Model model, @PathVariable("id") Long id) {
