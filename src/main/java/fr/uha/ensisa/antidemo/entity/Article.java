@@ -2,8 +2,19 @@ package fr.uha.ensisa.antidemo.entity;
 
 import lombok.*;
 
+import java.util.Collections;
+import java.util.HashSet;
+import java.util.Set;
+import java.util.regex.MatchResult;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
 import javax.persistence.*;
 import javax.validation.constraints.NotEmpty;
+
+import org.commonmark.node.Node;
+import org.commonmark.parser.Parser;
+import org.commonmark.renderer.html.HtmlRenderer;
 
 @Entity
 @Data
@@ -29,16 +40,4 @@ public class Article {
   @NotEmpty
   @Column(nullable = false, columnDefinition = "bigint DEFAULT 0")
   private long readCount;
-
-  public String getHtml() {
-    return this.getContent()
-            .trim()
-            .replaceAll("\n", "<br>")
-            .replaceAll("Image:(\\d+)\\[(\\d+),(\\d+)\\]", "<img src=\"/image/$1\" width=\"$2px\" height=\"$3px\">")
-            .replaceAll("Image:(\\d+)\\[(\\d+)\\]", "<img src=\"/image/$1\" height=\"$2px\">")
-            .replaceAll("Image:(\\d+)", "<img src=\"/image/$1\">")
-            .replaceAll("Video:(\\d+)\\[(\\d+),(\\d+)\\]", "<video src=\"/video/embed/$1\" width=\"$2px\" height=\"$3px\" controls=\"\" autoplay=\"\"> </video>")
-            .replaceAll("Video:(\\d+)\\[(\\d+)\\]", "<video src=\"/video/embed/$1\" height=\"$2px\" controls=\"\" autoplay=\"\"> </video>")
-            .replaceAll("Video:(\\d+)", "<video src=\"/video/embed/$1\" controls=\"\" autoplay=\"\"> </video>");
-  }
 }
