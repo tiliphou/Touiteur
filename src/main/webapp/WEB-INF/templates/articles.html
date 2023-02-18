@@ -6,7 +6,7 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>HOME</title>
-
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
   <link th:href="@{/css/styles.css}" rel="stylesheet"/>
 </head>
 
@@ -45,11 +45,11 @@
         <table class="article-table" id="article-table" cellspacing="0" cellpadding="0">
           <thead class="table-header">
           <tr>
-            <th class="table-cell"><span class="nav-link text-white"> ID <a th:href="@{/articles/id/asc}">&#9650;</a><a th:href="@{/articles/id/desc}">&#9660;</a> </span></th>
-            <th class="table-cell"><span class="nav-link text-white"> Date <a th:href="@{/articles/creationdate/asc}">&#9650;</a><a th:href="@{/articles/creationdate/desc}">&#9660;</a> </span></th>
-            <th class="table-cell"><span class="nav-link text-white"> Title <a th:href="@{/articles/title/asc}">&#9650;</a><a th:href="@{/articles/title/desc}">&#9660;</a> </span></th>
-            <th class="table-cell"><span class="nav-link text-white"> Poster </span></th>
-            <th class="table-cell"><span class="nav-link text-white"> Reads <a th:href="@{/articles/reads/asc}">&#9650;</a> <a th:href="@{/articles/reads/desc}">&#9660;</a> </span></th>
+            <th class="table-cell"><span class="nav-link"> ID <a th:href="@{/articles/id/asc}">&#9650;</a><a th:href="@{/articles/id/desc}">&#9660;</a> </span></th>
+            <th class="table-cell"><span class="nav-link"> Date <a th:href="@{/articles/creationdate/asc}">&#9650;</a><a th:href="@{/articles/creationdate/desc}">&#9660;</a> </span></th>
+            <th class="table-cell"><span class="nav-link"> Title <a th:href="@{/articles/title/asc}">&#9650;</a><a th:href="@{/articles/title/desc}">&#9660;</a> </span></th>
+            <th class="table-cell"><span class="nav-link"> Poster </span></th>
+            <th class="table-cell"><span class="nav-link"> Reads <a th:href="@{/articles/reads/asc}">&#9650;</a> <a th:href="@{/articles/reads/desc}">&#9660;</a> </span></th>
             <th class="right-align table-cell">
               <button tpe="button" class="submit-btn new-post-btn additional-width">
                 <a class="text-white" th:href="@{/article}">New Post</a>
@@ -58,20 +58,20 @@
           </tr>
           </thead>
           <tbody class="table-body">
-          <tr class="navbar navbar-dark bg-dark"
+          <tr class="navbar"
               th:if="${articles.empty}">
             <td class="nav-item" colspan="2"> No Articles Available</td>
           </tr>
           <tr th:each="article : ${articles}" class="table-dark">
-            <td class="center-align table-cell"><span class="text-white" th:text="${article.id}"></span></td>
-            <td class="center-align table-cell"><span class="text-white" th:text="${article.creationDate}"></span></td>
-            <td class="center-align table-cell"><span class="text-white" th:text="${article.title}"> </span></td>
+            <td class="center-align table-cell"><span th:text="${article.id}"></span></td>
+            <td class="center-align table-cell"><span th:text="${article.creationDate}"></span></td>
+            <td class="center-align table-cell"><span th:text="${article.title}"> </span></td>
             <td class="center-align table-cell">
               <img th:unless="${'/image/' + article.posterId} == null" th:src="@{'/image/' + ${article.posterId}}"
                   height="100px" class="image"/>
 
             </td>
-            <td class="center-align table-cell"><span class="text-white" th:text="${article.readCount}"> </span></td>
+            <td class="center-align table-cell"><span th:text="${article.readCount}"> </span></td>
             <td class="right-align table-cell">
               <button type="submit" class="submit-btn new-post-btn danger-btn deleted">
                 <a class="text-white"

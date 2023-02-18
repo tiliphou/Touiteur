@@ -32,9 +32,12 @@ public class Article {
 
   public String getHtml() {
     return this.getContent()
+            .trim()
             .replaceAll("\n", "<br>")
+            .replaceAll("Image:(\\d+)\\[(\\d+),(\\d+)\\]", "<img src=\"/image/$1\" width=\"$2px\" height=\"$3px\">")
             .replaceAll("Image:(\\d+)\\[(\\d+)\\]", "<img src=\"/image/$1\" height=\"$2px\">")
             .replaceAll("Image:(\\d+)", "<img src=\"/image/$1\">")
+            .replaceAll("Video:(\\d+)\\[(\\d+),(\\d+)\\]", "<video src=\"/video/embed/$1\" width=\"$2px\" height=\"$3px\" controls=\"\" autoplay=\"\"> </video>")
             .replaceAll("Video:(\\d+)\\[(\\d+)\\]", "<video src=\"/video/embed/$1\" height=\"$2px\" controls=\"\" autoplay=\"\"> </video>")
             .replaceAll("Video:(\\d+)", "<video src=\"/video/embed/$1\" controls=\"\" autoplay=\"\"> </video>");
   }
