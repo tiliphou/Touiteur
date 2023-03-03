@@ -47,9 +47,31 @@ services:
     networks:
       - front
     volumes:
-      - ./nginx_config:/etc/nginx/templates
+      - ./ext_config/nginx:/etc/nginx/templates
     ports:
       - 8082:8082 # Must be NGINX_PUBLISHED_PORT:NGINX_PORT
+  prometheus:
+    image: prom/prometheus:latest
+    ports:
+    - 9090:9090
+    command:
+    - --config.file=/etc/prometheus/prometheus.yml
+    volumes:
+    - ./ext_config/prometheus/prometheus.yml:/etc/prometheus/prometheus.yml:ro
+    depends_on:
+    - cadvisor
+  cadvisor:
+    image: gcr.io/cadvisor/cadvisor:latest
+    volumes:
+    - /:/rootfs:ro
+    - /var/run:/var/run:rw
+    - /sys:/sys:ro
+    - /var/lib/docker/:/var/lib/docker:ro
+    ports:
+    - 9091:9090
+    depends_on:
+    - app
+    - proxy
 volumes:
   db:
 networks:
