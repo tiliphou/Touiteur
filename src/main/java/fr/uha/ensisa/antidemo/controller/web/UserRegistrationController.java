@@ -11,10 +11,6 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.util.UriUtils;
-
-import java.net.URLEncoder;
-
 import javax.validation.Valid;
 
 @RequiredArgsConstructor
@@ -56,6 +52,7 @@ public class UserRegistrationController {
     }
 
     IUserService.save(userDto);
-    return "redirect:/login?user=" + UriUtils.encodeQueryParam(userDto.getEmail(), "UTF-8") ;
+
+    return "redirect:/login";
   }
 }

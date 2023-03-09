@@ -5,32 +5,16 @@ import fr.uha.ensisa.antidemo.entity.Video;
 import fr.uha.ensisa.antidemo.repository.VideoRepository;
 import fr.uha.ensisa.antidemo.service.ArticleService;
 import fr.uha.ensisa.antidemo.service.ImageService;
-import fr.uha.ensisa.antidemo.service.VideoService;
-
-import org.apache.tomcat.util.http.fileupload.FileItem;
-import org.apache.tomcat.util.http.fileupload.disk.DiskFileItem;
-import org.apache.tomcat.util.http.fileupload.disk.DiskFileItemFactory;
 import org.springframework.context.ApplicationListener;
 
 import fr.uha.ensisa.antidemo.entity.Article;
-import fr.uha.ensisa.antidemo.service.ArticleService;
-import fr.uha.ensisa.antidemo.service.ImageService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.context.ApplicationListener;
 import org.springframework.context.event.ContextRefreshedEvent;
 import org.springframework.stereotype.Component;
-import org.springframework.web.multipart.MultipartFile;
-import org.springframework.web.multipart.commons.CommonsMultipartFile;
-
 import java.io.*;
 import java.net.HttpURLConnection;
-import java.net.MalformedURLException;
 import java.net.URL;
-import java.nio.channels.Channels;
-import java.nio.channels.ReadableByteChannel;
-import java.nio.file.Files;
 import java.nio.file.Path;
-import java.util.ArrayList;
 import java.util.Random;
 
 @Component @RequiredArgsConstructor

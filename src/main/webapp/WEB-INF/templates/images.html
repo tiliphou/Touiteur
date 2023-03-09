@@ -45,7 +45,7 @@
     <nav class="control-navbar">
       <ul>
         <li class="unset-list-elem">
-          <form class="navbar-form" enctype="multipart/form-data" th:action="@{/upload-image}" th:method="post"
+          <form id="image-upload-form" class="navbar-form" enctype="multipart/form-data" th:action="@{/upload-image}" th:method="post"
                 th:object="${image}">
             <label for="image-input" class="submit-btn file-upload-label">Upload Image</label>
             <input accept="image/png, image/jpeg" id="image-input" th:field="*{file}"

@@ -24,10 +24,10 @@
         <div class="navbar-element disable-hover">
           <input type="text" class="search-input" id="search-input"/>
           <button class="search-btn" >Search</button>
-          <a class="search-btn authentication-btn" th:href="@{/registration}" sec:authorize="isAnonymous()">Sing up</a>
-          <a class="search-btn authentication-btn" th:href="@{/login}" sec:authorize="isAnonymous()">Sing in</a>
+          <a id="register-btn" class="search-btn authentication-btn" th:href="@{/registration}" sec:authorize="isAnonymous()">Sing up</a>
+          <a id="login-btn" class="search-btn authentication-btn" th:href="@{/login}" sec:authorize="isAnonymous()">Sing in</a>
           <div sec:authorize="isAuthenticated()" >
-            <a class="search-btn authentication-btn" th:href="@{/articles}" >Account</a>
+            <a id="account-btn" class="search-btn authentication-btn" th:href="@{/articles}" >Account</a>
           </div>
         </div>
       </nav>
