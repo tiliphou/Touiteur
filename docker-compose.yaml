@@ -37,7 +37,7 @@ services:
       db:
         condition: service_healthy
   proxy:
-    image: nginx:alpine # https://hub.docker.com/_/nginx
+    image: nginx # https://hub.docker.com/_/nginx
     restart: always
     environment:
       - NGINX_PORT=8082
