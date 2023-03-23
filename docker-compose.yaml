@@ -4,7 +4,7 @@ services:
   db:
     image: mysql
     environment:
-      - MYSQL_ROOT_PASSWORD=root
+      - MYSQL_ROOT_PASSWORD=$MYSQL_ROOT_PASSWORD
       - MYSQL_DATABASE=antidemo
       - MYSQL_USER=$MYSQL_USER
       - MYSQL_PASSWORD=$MYSQL_PASSWORD
@@ -58,22 +58,42 @@ services:
     - --config.file=/etc/prometheus/prometheus.yml
     volumes:
     - ./ext_config/prometheus/prometheus.yml:/etc/prometheus/prometheus.yml:ro
+    - metrics:/prometheus
     depends_on:
     - cadvisor
+    networks:
+    - metrics
   cadvisor:
-    image: gcr.io/cadvisor/cadvisor:latest
+    image: gcr.io/cadvisor/cadvisor:v0.47.1
+    container_name: cadvisor
+    command:
+    - --enable_metrics=cpu,memory,network,diskIO
+    - --store_container_labels=false
+    - --whitelisted_container_labels=com.docker.compose.service,image,name
+    - --docker_only=true
+    - --disable_root_cgroup_stats=true
+    ports:
+    - 8080:8080
+    devices:
+    - /dev/kmsg:/dev/kmsg
     volumes:
     - /:/rootfs:ro
-    - /var/run:/var/run:rw
+    - /var/run:/var/run:ro
     - /sys:/sys:ro
     - /var/lib/docker/:/var/lib/docker:ro
-    ports:
-    - 9091:9090
+    - /dev/disk/:/dev/disk:ro
+    - /var/run/docker.sock:/var/run/docker.sock:rw
+    - /etc/machine-id:/etc/machine-id:ro
+    privileged: true
     depends_on:
     - app
     - proxy
+    networks:
+    - metrics
 volumes:
   db:
+  metrics:
 networks:
   front:
   db:
+  metrics:
