@@ -42,6 +42,7 @@ start_containers:
     DOCKER_HOST: "tcp://dind:2375"
   script:
     - ls -l
+    - ls -l ext_config
     - docker stop $(docker ps -a -q) || /bin/true
     - docker rm $(docker ps -a -q) || /bin/true
     - docker compose up -d --build
