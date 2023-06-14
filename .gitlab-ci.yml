@@ -1,4 +1,4 @@
-image: maven:3-jdk-17
+image: maven:3-openjdk-17
 
 before_script:
   - echo '<settings
@@ -42,5 +42,5 @@ start_containers:
   script:
     - docker stop $(docker ps -a -q) || /bin/true
     - docker rm $(docker ps -a -q) || /bin/true
-    - docker compose up -d
+    - docker compose up -d --build
     - docker ps -a
