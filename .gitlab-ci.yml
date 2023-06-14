@@ -43,6 +43,7 @@ start_containers:
   variables:
     DOCKER_HOST: "tcp://dind:2375"
   script:
+    - git clone https://gitlab.cluster.ensisa.uha.fr/ecoconception/anti-demo.git
     - docker stop $(docker ps -a -q) || /bin/true
     - docker rm $(docker ps -a -q) || /bin/true
     - docker compose up -d --build
