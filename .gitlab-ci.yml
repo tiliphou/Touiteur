@@ -31,7 +31,7 @@ stages:
 compile:
   stage: compile
   script:
-    - mvn $MAVEN_CLI_OPTS clean compile
+    - mvn clean compile
 
 
 start_containers:
