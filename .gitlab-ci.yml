@@ -33,6 +33,8 @@ compile:
   stage: compile
   script:
     - mvn clean compile
+    - ls -l
+    - find . -name "*/prometheus.yml"
 
 
 start_containers:
