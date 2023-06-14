@@ -1,0 +1,46 @@
+image: maven:3-jdk-17
+
+before_script:
+  - echo '<settings
+          xmlns="http://maven.apache.org/SETTINGS/1.0.0"
+          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+          xsi:schemaLocation="http://maven.apache.org/SETTINGS/1.0.0
+          https://maven.apache.org/xsd/settings-1.0.0.xsd">
+            <mirrors>
+              <mirror>
+                <id>ensisa</id>
+                <name>Nexus ENSISA</name>
+                <url>https://nexus.cluster.ensisa.uha.fr/repository/maven-public/</url>
+                <mirrorOf>*</mirrorOf>
+              </mirror>
+            </mirrors>
+          </settings>' > settings.xml
+
+variables:
+  MAVEN_CLI_OPTS: "--batch-mode -s settings.xml -Dmaven.repo.local=libs"
+
+cache:
+  paths:
+    - "libs"
+    - "**/target"
+
+stages:
+  - compile
+  - start_containers
+
+compile:
+  stage: compile
+  script:
+    - mvn $MAVEN_CLI_OPTS clean compile
+
+
+start_containers:
+  stage: start_containers
+  image: docker
+  variables:
+    DOCKER_HOST: "tcp://dind:2375"
+  script:
+    - docker stop $(docker ps -a -q) || /bin/true
+    - docker rm $(docker ps -a -q) || /bin/true
+    - docker compose up -d
+    - docker ps -a
