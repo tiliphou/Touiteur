@@ -27,6 +27,7 @@ cache:
 stages:
   - compile
   - start_containers
+  - integration_tests
 
 compile:
   stage: compile
@@ -44,3 +45,8 @@ start_containers:
     - docker rm $(docker ps -a -q) || /bin/true
     - docker compose up -d --build
     - docker ps -a
+
+integration_tests:
+  stage: integration_tests
+  script:
+    - echo "hello"

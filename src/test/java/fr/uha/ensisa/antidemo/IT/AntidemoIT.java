@@ -12,9 +12,7 @@ import fr.uha.ensisa.eco.metrologie.extension.annotations.EcoMonitor;
 import fr.uha.ensisa.eco.metrologie.extension.annotations.EcoWebDriver;
 
 @EcoDocker(network = "metrologie-network", url = "$DOCKER_HOST$")
-@EcoDockerContainer(id = "$NGINX_ID$", port=8082)
-@EcoMonitor(containerId = "$APP_ID$")
-@EcoMonitor(containerId = "$MYSQL_ID$")
+@EcoDockerContainer(id = "$NGINX_PROXY_ID$", port=8082)
 @EcoGatling(userCount = 20)
 @EcoWebDriver(remote = true)
 @ExtendWith(EcoExtension.class)
