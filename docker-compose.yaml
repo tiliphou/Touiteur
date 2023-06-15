@@ -65,7 +65,7 @@ services:
     command:
     - --config.file=/etc/prometheus/prometheus.yml
     volumes:
-    - ./ext_config/prometheus/prometheus.yml:/etc/prometheus/prometheus.yml:ro
+    - ./ext_config/prometheus:/etc/prometheus:ro
     - metrics:/prometheus
     depends_on:
     - cadvisor
