@@ -49,8 +49,12 @@ start_containers:
     - docker compose up -d --build
     - docker rm helper
     - docker ps -a
+    - docker inspect --format="{{.Id}}"  > containers_id.txt
 
 integration_tests:
   stage: integration_tests
   script:
-    - echo "hello"
+    - wget https://nexus.cluster.ensisa.uha.fr/repository/maven-public/io/gatling/highcharts/gatling-charts-highcharts-bundle/3.9.5/gatling-charts-highcharts-bundle-3.9.5-bundle.zip
+    - unzip gatling-charts-highcharts-bundle-3.9.5-bundle.zip
+    - export GATLING_HOME=$(cd gatling-charts-highcharts-bundle-3.9.5; pwd)
+    - mvn verify
