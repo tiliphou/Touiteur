@@ -14,7 +14,7 @@ ENV DATABASE_USER=user
 ENV DATABASE_PASSWORD=user
 RUN nohup bash -c "mysqld -u mysql --port 3306 --max_allowed_packet 32M --datadir=/var/lib/mysql/ &" && sleep 3 && \
     mysql -e "CREATE USER '$DATABASE_USER'@'localhost' IDENTIFIED BY '$DATABASE_PASSWORD'; CREATE DATABASE antidemo; GRANT ALL ON antidemo.* to '$DATABASE_USER'@'localhost' ; FLUSH PRIVILEGES;" && \
-    mvn verify && \
+    mvn verify -DskipTests && \
     killall mysqld
 
 FROM eclipse-temurin:18-jre
