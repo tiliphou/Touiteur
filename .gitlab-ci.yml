@@ -57,8 +57,10 @@ start_containers:
 
 integration_tests:
   stage: integration_tests
-
   script:
+    - microdnf install wget
+    - microdnf install unzip
+    - microdnf install hostname
     - wget https://nexus.cluster.ensisa.uha.fr/repository/maven-public/io/gatling/highcharts/gatling-charts-highcharts-bundle/3.9.5/gatling-charts-highcharts-bundle-3.9.5-bundle.zip
     - unzip gatling-charts-highcharts-bundle-3.9.5-bundle.zip
     - export GATLING_HOME=$(cd gatling-charts-highcharts-bundle-3.9.5; pwd)
