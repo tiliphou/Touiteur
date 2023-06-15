@@ -48,13 +48,21 @@ start_containers:
     - docker cp ./ext_config helper:/ext_config
     - docker compose up -d --build
     - docker rm helper
-    - docker ps -a
-    - docker inspect --format="{{.Id}}"  > containers_id.txt
+    - proxy_id=$(docker ps -aqf "name=.*proxy.*")
+    - app_id=$(docker ps -aqf "name=.*app.*")
+    - db_id=$(docker ps -aqf "name=.*db.*")
+    - echo "$proxy_id" > containers_id
+    - echo "$app_id" >> containers_id
+    - echo "$db_id" >> containers_id
 
 integration_tests:
   stage: integration_tests
+
   script:
     - wget https://nexus.cluster.ensisa.uha.fr/repository/maven-public/io/gatling/highcharts/gatling-charts-highcharts-bundle/3.9.5/gatling-charts-highcharts-bundle-3.9.5-bundle.zip
     - unzip gatling-charts-highcharts-bundle-3.9.5-bundle.zip
     - export GATLING_HOME=$(cd gatling-charts-highcharts-bundle-3.9.5; pwd)
+    - export DOCKER_HOST="tcp://dind:2375"
+    - export POD_IP=$(hostname -I)
+    - export NGINX_PROXY_ID=$(seq '1q;d' containers_id)
     - mvn verify
