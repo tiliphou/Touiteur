@@ -41,12 +41,13 @@ start_containers:
   variables:
     DOCKER_HOST: "tcp://dind:2375"
   script:
-    - ls -l
-    - ls -l ext_config
-    - cat /builds/ecoconception/anti-demo/ext_config/prometheus/prometheus.yml
     - docker stop $(docker ps -a -q) || /bin/true
     - docker rm $(docker ps -a -q) || /bin/true
+    - docker volume create data-volume
+    - docker create -v data-volume:/ --name helper busybox true
+    - docker cp ./ext_config helper:/
     - docker compose up -d --build
+    - docker rm helper
     - docker ps -a
 
 integration_tests:
