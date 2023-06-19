@@ -58,17 +58,19 @@ start_containers:
 integration_tests:
   stage: integration_tests
   image: maven:3-jdk-8
+  variables:
+    GATLING_VERSION: "3.9.5"
   script:
   #  - microdnf install wget
   #  - microdnf install unzip
   #  - microdnf install hostname
-    - wget https://nexus.cluster.ensisa.uha.fr/repository/maven-public/io/gatling/highcharts/gatling-charts-highcharts-bundle/3.9.5/gatling-charts-highcharts-bundle-3.9.5-bundle.zip
-    - unzip gatling-charts-highcharts-bundle-3.9.5-bundle.zip
-    - export GATLING_HOME=$(cd gatling-charts-highcharts-bundle-3.9.5; pwd)
+    - wget https://nexus.cluster.ensisa.uha.fr/repository/maven-public/io/gatling/highcharts/gatling-charts-highcharts-bundle/$GATLING_VERSION/gatling-charts-highcharts-bundle-$GATLING_VERSION-bundle.zip
+    - unzip gatling-charts-highcharts-bundle-$GATLING_VERSION-bundle.zip
+    - export GATLING_HOME=$(cd gatling-charts-highcharts-bundle-$GATLING_VERSION; pwd)
     - export DOCKER_HOST="tcp://dind:2375"
     - export POD_IP=$(hostname -I)
     - export NGINX_PROXY_ID=$(seq '1q;d' containers_id)
     - mkdir -p it/src; cd it; ln -s ../settings.xml
     - cp ../pom.xml . ; sed -i '/java.version/d' pom.xml
     - cp -r ../src/test ./src/
-    - mvn $MAVEN_CLI_OPTS maven-compiler-plugin:testCompile maven-failsafe-plugin:integration-test
+    - mvn $MAVEN_CLI_OPTS testCompile maven-failsafe-plugin:integration-test
