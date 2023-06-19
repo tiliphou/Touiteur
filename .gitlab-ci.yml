@@ -29,7 +29,7 @@ stages:
   - start_containers
   - integration_tests
 
-.compile:
+compile:
   stage: compile
   script:
     - mvn clean compile
