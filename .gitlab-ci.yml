@@ -68,4 +68,4 @@ integration_tests:
     - export DOCKER_HOST="tcp://dind:2375"
     - export POD_IP=$(hostname -I)
     - export NGINX_PROXY_ID=$(seq '1q;d' containers_id)
-    - mvn verify
+    - mvn $MAVEN_CLI_OPTS verify
