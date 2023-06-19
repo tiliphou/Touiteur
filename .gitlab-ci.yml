@@ -69,6 +69,6 @@ integration_tests:
     - export POD_IP=$(hostname -I)
     - export NGINX_PROXY_ID=$(seq '1q;d' containers_id)
     - mkdir -p it/src; cd it
-    - cp ../pom.xml . ; sed -i 'java.version/d' pom.xml
+    - cp ../pom.xml . ; sed -i '/java.version/d' pom.xml
     - cp -r ../src/test ./src/
     - mvn $MAVEN_CLI_OPTS verify
