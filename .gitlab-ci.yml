@@ -71,4 +71,4 @@ integration_tests:
     - mkdir -p it/src; cd it; ln -s ../settings.xml
     - cp ../pom.xml . ; sed -i '/java.version/d' pom.xml
     - cp -r ../src/test ./src/
-    - mvn $MAVEN_CLI_OPTS verify
+    - mvn $MAVEN_CLI_OPTS maven-failsafe-plugin:integration-test
