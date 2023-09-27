@@ -58,50 +58,8 @@ services:
     depends_on:
       app:
         condition: service_healthy
-  prometheus:
-    image: prom/prometheus:latest
-    ports:
-    - 9090:9090
-    command:
-    - --config.file=/etc/prometheus/prometheus.yml
-    volumes:
-    - ./ext_config/prometheus:/etc/prometheus:ro
-    - metrics:/prometheus
-    depends_on:
-    - cadvisor
-    networks:
-    - metrics
-  cadvisor:
-    image: gcr.io/cadvisor/cadvisor:v0.47.1
-    container_name: cadvisor
-    command:
-    - --enable_metrics=cpu,memory,network,diskIO
-    - --store_container_labels=false
-    - --whitelisted_container_labels=com.docker.compose.service,image,name
-    - --docker_only=true
-    - --disable_root_cgroup_stats=true
-    ports:
-    - 9091:8080
-    devices:
-    - /dev/kmsg:/dev/kmsg
-    volumes:
-    - /:/rootfs:ro
-    - /var/run:/var/run:ro
-    - /sys:/sys:ro
-    - /var/lib/docker/:/var/lib/docker:ro
-    - /dev/disk/:/dev/disk:ro
-    - /var/run/docker.sock:/var/run/docker.sock:rw
-    - /etc/machine-id:/etc/machine-id:ro
-    privileged: true
-    depends_on:
-    - app
-    - proxy
-    networks:
-    - metrics
 volumes:
   db:
-  metrics:
 networks:
   front:
   db:
-  metrics:
