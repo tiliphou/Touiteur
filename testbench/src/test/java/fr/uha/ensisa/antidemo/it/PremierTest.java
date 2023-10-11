@@ -1,22 +1,20 @@
 package fr.uha.ensisa.antidemo.it;
 
-import static org.testng.Assert.*;
+import static org.junit.jupiter.api.Assertions.*;
 
-import net.lightbody.bmp.BrowserMobProxyServer;
-import net.lightbody.bmp.client.ClientUtil;
-import net.lightbody.bmp.core.har.Har;
-import net.lightbody.bmp.proxy.CaptureType;
+import org.junit.jupiter.api.RepeatedTest;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.openqa.selenium.*;
-import org.openqa.selenium.chrome.ChromeDriver;
-import org.openqa.selenium.chrome.ChromeOptions;
-import org.openqa.selenium.remote.CapabilityType;
-import org.openqa.selenium.remote.DesiredCapabilities;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
-import org.testng.annotations.AfterMethod;
-import org.testng.annotations.BeforeClass;
-import org.testng.annotations.BeforeMethod;
-import org.testng.annotations.Test;
+
+import fr.uha.ensisa.eco.metrologie.extension.EcoExtension;
+import fr.uha.ensisa.eco.metrologie.extension.annotations.EcoDocker;
+import fr.uha.ensisa.eco.metrologie.extension.annotations.EcoDockerContainer;
+import fr.uha.ensisa.eco.metrologie.extension.annotations.EcoGatling;
+import fr.uha.ensisa.eco.metrologie.extension.annotations.EcoMonitor;
+import fr.uha.ensisa.eco.metrologie.extension.annotations.EcoWebDriver;
 
 import java.io.File;
 import java.io.IOException;
@@ -24,83 +22,38 @@ import java.io.InputStream;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.nio.file.Files;
-import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
-import java.util.EnumSet;
+import java.time.Duration;
 import java.util.List;
 import java.util.Random;
 
+@EcoDocker(network = "metrology") //, clean = false)
+@EcoDockerContainer(id = "anti-demo-proxy-1")
+@EcoMonitor(containerId = "anti-demo-app-1")
+@EcoMonitor(containerId = "anti-demo-db-1")
+@EcoWebDriver(remote = true)
+@EcoGatling(userCount = 100, rampDuration = 10)
+@ExtendWith(EcoExtension.class)
 public class PremierTest {
-
-    public static final String NOM_FICHIER_HAR = "testPapillonage.har";
-    private final String BASEADDRESS = "http://localhost:8082";
 
     //variable pour tout les tests
     private CharSequence email;
-
-    private Integer NOMBRE_TEST =2;
-    //en secondes
-    private int TEMPS_INTER_TEST=30;
     private Integer NOMBRE_ARTICLE_TEST =2;
     //en secondes
     private int TEMPS_PAR_ARTICLE = 10;
     private int TEMPS_RECHERCHE_ARTICLE = 5;
 
-    private WebDriver wb;
-    private BrowserMobProxyServer proxy;
-
-    @BeforeClass
-    private void setupChromeDriver() throws IOException, InterruptedException {
-        System.setProperty("webdriver.chrome.driver", Utils.getChromeDriver().getAbsolutePath());
-    }
-
-    @BeforeMethod
-    public void startChrome() {
-
-        //prerequis pour enregistrement pour gatling
-
-        proxy = new BrowserMobProxyServer();
-        proxy.start();
-        Proxy seleniumProxy = ClientUtil.createSeleniumProxy(proxy);
-
-        DesiredCapabilities capabilities = new DesiredCapabilities();
-
-        capabilities.setCapability(CapabilityType.PROXY,seleniumProxy);
-        capabilities.acceptInsecureCerts();
-        capabilities.setCapability(CapabilityType.ACCEPT_SSL_CERTS, true);
-
-        EnumSet<CaptureType> captureTypes = CaptureType.getAllContentCaptureTypes();
-
-        captureTypes.addAll(CaptureType.getCookieCaptureTypes());
-        captureTypes.addAll(CaptureType.getHeaderCaptureTypes());
-        captureTypes.addAll(CaptureType.getRequestCaptureTypes());
-        captureTypes.addAll(CaptureType.getResponseCaptureTypes());
-
-
-
-        proxy.setHarCaptureTypes(captureTypes);
-        proxy.newHar("testPapillonage");
-
-        //test selenium
-        ChromeOptions chromeOptions = new ChromeOptions();
-        chromeOptions.merge(capabilities);
-        chromeOptions.setProxy(seleniumProxy);
-        chromeOptions.setAcceptInsecureCerts(true);
-        wb = new ChromeDriver(chromeOptions);
-    }
-
-    @AfterMethod
-    public void stopChrome() {
-        if (this.wb != null) {
-            this.wb.close();
-            this.wb = null;
-        }
-    }
+    private Random rnd = new Random();
 
     //créer un compte
     // !!! attention !!!
     // ne revoie pas à l'index après la création du compte
-    private void createAcc(){
+    private void createAcc(WebDriver wb){
+        List<WebElement> acc = wb.findElements(By.id("account-btn"));
+        if (!acc.isEmpty()) {
+            wb.get("/logout");
+            wb.get("/");
+        }
+
         wb.findElement(By.id("register-btn")).click();
         List<WebElement> inputs = wb.findElements(By.className("form-input"));
         CharSequence firstname;
@@ -127,7 +80,7 @@ public class PremierTest {
         wb.findElement(By.className("submit-btn")).click();
     }
 
-    private void login(){
+    private void login(WebDriver wb){
         if (!wb.getCurrentUrl().endsWith("/login")) {
             wb.findElement(By.id("login-btn")).click();
         }
@@ -142,46 +95,46 @@ public class PremierTest {
     }
 
     @Test
-    public void testAccountCreation() throws IOException  {
-        wb.get(this.BASEADDRESS);
+    public void testAccountCreation(WebDriver wb) throws IOException  {
+        wb.get("/");
 
         //création d'un compte
-        this.createAcc();
+        this.createAcc(wb);
 
-        //vérification que la création à été éffectuer
-        assertEquals(this.BASEADDRESS+"/login", wb.getCurrentUrl());
+        //vérification que la création à été éffectuée
+        assertEquals("/login", wb.getCurrentUrl());
     }
 
     @Test
-    public void testAccountLogin()  {
-        wb.get(this.BASEADDRESS);
+    public void testAccountLogin(WebDriver wb)  {
+        wb.get("/");
 
         //si pas d'identifiant de compte stocké créer un compte
         if(this.email==null){
-            this.createAcc();
+            this.createAcc(wb);
         }
 
         //se conecter
-        this.login();
+        this.login(wb);
 
-        new WebDriverWait(wb, 5)
+        new WebDriverWait(wb, Duration.ofSeconds(5))
             .until(ExpectedConditions.elementToBeClickable(By.id("account-btn")));
     }
 
 
     @Test
-    public void testModifyPost()  {
-        wb.get(this.BASEADDRESS);
+    public void testModifyPost(WebDriver wb)  {
+        wb.get("/");
 
         //si pas d'identifiant de compte stocké créer un compte
         if(this.email==null){
-            this.createAcc();
+            this.createAcc(wb);
         }
 
         //se conecter
-        this.login();
+        this.login(wb);
 
-        new WebDriverWait(wb, 5)
+        new WebDriverWait(wb, Duration.ofSeconds(5))
             .until(ExpectedConditions.elementToBeClickable(By.id("account-btn")))
             .click();
 
@@ -209,18 +162,18 @@ public class PremierTest {
     }
 
     @Test
-    public void testUploadImage() throws MalformedURLException, IOException  {
-        wb.get(this.BASEADDRESS);
+    public void testUploadImage(WebDriver wb) throws MalformedURLException, IOException  {
+        wb.get("/");
 
         //si pas d'identifiant de compte stocké créer un compte
         if(this.email==null){
-            this.createAcc();
+            this.createAcc(wb);
         }
 
         //se connecter
-        this.login();
+        this.login(wb);
 
-        new WebDriverWait(wb, 5)
+        new WebDriverWait(wb, Duration.ofSeconds(5))
             .until(ExpectedConditions.elementToBeClickable(By.id("account-btn")))
             .click();
 
@@ -245,52 +198,10 @@ public class PremierTest {
     }
 
     @Test
-    public void testPapillonage()  {
-
-        Random rnd = new Random();
-        if(NOMBRE_TEST == null)
-            NOMBRE_TEST = rnd.nextInt(10)+1;
-        System.out.println("Nombre de tests : " + NOMBRE_TEST);
-
-        //formateur pour timestamp de synchronisation avec la mesure
-        DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm:ss");
-        //premier test
-        System.out.println("Debut test "+"1"+" à "+dtf.format(LocalDateTime.now()) + " (" + System.currentTimeMillis() + ')');
-        papillonage(wb,rnd);
-        System.out.println("Fin test "+"1"+" à "+dtf.format(LocalDateTime.now()) + " (" + System.currentTimeMillis() + ')');
-        try {
-            Thread.sleep(TEMPS_INTER_TEST*1000);
-        }catch (Exception e){
-            e.printStackTrace();
-        }
-        //on enregistre le HAR du premier test pour Gatling
-        Har har = proxy.getHar();
-        File harFile = new File(NOM_FICHIER_HAR).getAbsoluteFile();
-        try {
-            har.writeTo(harFile);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-
-        //le reste des tests sans enregistrements
-        for(int i=0;i<NOMBRE_TEST-1;i++){
-            System.out.println("Debut test "+i+2+" à "+dtf.format(LocalDateTime.now()) + " (" + System.currentTimeMillis() + ')');
-            papillonage(wb,rnd);
-            System.out.println("Fin test "+i+2+" à "+dtf.format(LocalDateTime.now()) + " (" + System.currentTimeMillis() + ')');
-            try {
-                Thread.sleep(TEMPS_INTER_TEST*1000);
-            }catch (Exception e){
-                e.printStackTrace();
-            }
-        }
-    }
-
-
-
-
-    private void papillonage(WebDriver wb,Random rnd){
+    @RepeatedTest(3)
+    public void papillonnage(WebDriver wb){
         JavascriptExecutor js = (JavascriptExecutor) wb;
-        wb.get(this.BASEADDRESS);
+        wb.get("/");
         if(NOMBRE_ARTICLE_TEST == null)
             NOMBRE_ARTICLE_TEST = rnd.nextInt(10)+1;
         int nb;
@@ -308,7 +219,7 @@ public class PremierTest {
                 Thread.sleep(TEMPS_PAR_ARTICLE*500);
                 js.executeScript("window.scrollTo(0,0)", "");
                 Thread.sleep(TEMPS_PAR_ARTICLE*200);
-                wb.get(this.BASEADDRESS);
+                wb.get("/");
                 js.executeScript("window.scrollBy(-2500,0)", "");
                 Thread.sleep(TEMPS_RECHERCHE_ARTICLE*1000);
             }
