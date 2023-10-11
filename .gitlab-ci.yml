@@ -81,6 +81,7 @@ integration_tests:
   script:
     - cd testbench
     - cp ../settings.xml settings.xml
+    - cat containers_id.txt
     - export TUTUM_ID=$(cat containers_id.txt)
     - export POD_IP=$(hostname -I)
     - wget https://nexus.cluster.ensisa.uha.fr/repository/maven-public/io/gatling/highcharts/gatling-charts-highcharts-bundle/${GATLING_VERSION}/gatling-charts-highcharts-bundle-${GATLING_VERSION}-bundle.zip
