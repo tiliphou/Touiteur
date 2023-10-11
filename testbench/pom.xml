@@ -13,8 +13,6 @@
         <maven.compiler.target>1.8</maven.compiler.target>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<junit.version>5.9.3</junit.version>
-        <docker-java.version>3.3.1</docker-java.version>
-		<slf4j.version>2.0.7</slf4j.version>
     </properties>
 
     <repositories>
@@ -25,18 +23,6 @@
     </repositories>
 
     <dependencies>
-        <dependency>
-            <groupId>com.fasterxml.jackson.core</groupId>
-            <artifactId>jackson-annotations</artifactId>
-            <version>2.15.2</version>
-        </dependency>
-
-        <!-- Docker Java -->
-		<dependency>
-			<groupId>com.github.docker-java</groupId>
-			<artifactId>docker-java</artifactId>
-			<version>${docker-java.version}</version>
-		</dependency>
 
         <dependency>
             <groupId>com.google.guava</groupId>
