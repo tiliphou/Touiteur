@@ -33,8 +33,13 @@ import java.util.Random;
 @EcoWebDriver(remote = true)
 @EcoGatling(userCount = 100, rampDuration = 10)
 @ExtendWith(EcoExtension.class)
-public class PremierTest {
 
+public class PremierTest {
+    @RepeatedTest(3)
+	void testSearch(WebDriver driver) {
+		driver.get("/");
+	}
+/*
     //variable pour tout les tests
     private CharSequence email;
     private Integer NOMBRE_ARTICLE_TEST =2;
@@ -226,6 +231,8 @@ public class PremierTest {
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
-    }
+    }*/
+
+
 }
 
