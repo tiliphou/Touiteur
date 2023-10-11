@@ -61,9 +61,9 @@ start_containers:
 integration_tests:
   stage: integration_tests
   image: maven:3-jdk-8
-  variables:
-    GATLING_VERSION: "3.9.5"
-  script:
+  #variables:
+   # GATLING_VERSION: "3.9.5"
+  #script:
   #  - microdnf install wget
   #  - microdnf install unzip
   #  - microdnf install hostname
