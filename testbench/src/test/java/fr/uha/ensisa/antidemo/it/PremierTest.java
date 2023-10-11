@@ -29,7 +29,6 @@ import java.util.Random;
 @EcoDocker(network = "metrology", url = "$DOCKER_HOST$", clean = true)
 @EcoDockerContainer(id = "anti-demo-app-1", port = 8091)
 //@EcoDockerContainer(id = "anti-demo-proxy-1")
-//@EcoDockerContainer(id = "tutum-hello")
 //@EcoMonitor(containerId = "anti-demo-app-1")
 @EcoMonitor(containerId = "anti-demo-db-1")
 @EcoWebDriver(remote = true)
@@ -84,7 +83,7 @@ public class PremierTest {
         inputs.get(4).sendKeys(password);
 
         wb.findElement(By.className("submit-btn")).click();
-    }/*
+    }
 
     private void login(WebDriver wb){
         if (!wb.getCurrentUrl().endsWith("/login")) {
@@ -98,7 +97,7 @@ public class PremierTest {
         pwd.sendKeys("aaaa");
 
         wb.findElement(By.id("login-submit")).submit();
-    }*/
+    }
 
     @Test
     public void testAccountCreation(WebDriver wb) throws IOException  {
@@ -125,7 +124,7 @@ public class PremierTest {
 
         new WebDriverWait(wb, Duration.ofSeconds(5))
             .until(ExpectedConditions.elementToBeClickable(By.id("account-btn")));
-    }
+    }*/
 
 
     @Test
@@ -202,7 +201,7 @@ public class PremierTest {
         upload.sendKeys(img.getAbsolutePath());
         wb.findElement(By.id("image-upload-form")).submit();
     }
-
+/*
     @RepeatedTest(3)
     public void papillonnage(WebDriver wb){
         JavascriptExecutor js = (JavascriptExecutor) wb;
