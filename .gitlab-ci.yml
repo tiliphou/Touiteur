@@ -55,7 +55,7 @@ start_containers:
     - docker inspect --format="{{.Id}}" tutum > containers_id.txt
   artifacts:
     paths:
-      - "containers_id.txt"
+      - "anti-demo/containers_id.txt"
 
 
 integration_tests:
