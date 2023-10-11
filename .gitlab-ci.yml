@@ -45,47 +45,27 @@ start_containers:
     - cd anti-demo
     - docker stop $(docker ps -a -q) || /bin/true
     - docker rm $(docker ps -a -q) || /bin/true
-    # - docker volume create data-volume
-    # - docker create -v data-volume:/ext_config --name helper busybox true
-    # - docker cp ./ext_config helper:/ext_config
-    # - docker compose up -d --build
-    # - docker rm helper
-    -  docker run -d --rm -P --name tutum tutum/hello-world
-    - docker ps -a
-    - docker inspect --format="{{.Id}}" tutum > containers_id.txt
-  artifacts:
-    paths:
-      - "anti-demo/containers_id.txt"
+    - docker volume create data-volume
+    - docker create -v data-volume:/ext_config --name helper busybox true
+    - docker cp ./ext_config helper:/ext_config
+    - docker compose up -d --build
+    - docker rm helper
 
 
 integration_tests:
   stage: integration_tests
   image: maven:3-jdk-8
-  #variables:
-   # GATLING_VERSION: "3.9.5"
-  #script:
+  variables:
+   GATLING_VERSION: "3.9.5"
+  script:
   #  - microdnf install wget
   #  - microdnf install unzip
   #  - microdnf install hostname
-    # - cd testbench
-    # - wget https://nexus.cluster.ensisa.uha.fr/repository/maven-public/io/gatling/highcharts/gatling-charts-highcharts-bundle/$GATLING_VERSION/gatling-charts-highcharts-bundle-$GATLING_VERSION-bundle.zip
-    # - unzip gatling-charts-highcharts-bundle-$GATLING_VERSION-bundle.zip
-    # - export GATLING_HOME=$(cd gatling-charts-highcharts-bundle-$GATLING_VERSION; pwd)
-    # - export DOCKER_HOST="tcp://dind:2375"
-    # - export POD_IP=$(hostname -I)
-    # - cp ../settings.xml settings.xml
-    # - mvn $MAVEN_CLI_OPTS verify
-  variables:
-    DOCKER_HOST: "tcp://dind:2375"
-    GATLING_VERSION: "3.9.5"
-  script:
-    - cd testbench
-    - cp ../settings.xml settings.xml
-    - export TUTUM_ID=$(cat ../anti-demo/containers_id.txt)
-    - export POD_IP=$(hostname -I)
-    - wget https://nexus.cluster.ensisa.uha.fr/repository/maven-public/io/gatling/highcharts/gatling-charts-highcharts-bundle/${GATLING_VERSION}/gatling-charts-highcharts-bundle-${GATLING_VERSION}-bundle.zip
-    - unzip gatling-charts-highcharts-bundle-${GATLING_VERSION}-bundle.zip
-    - export GATLING_HOME=$(cd gatling-charts-highcharts-bundle-${GATLING_VERSION}; pwd)
-    - echo "$GATLING_HOME"
-    - mvn $MAVEN_CLI_OPTS -Dskip.tests verify
-    - cat $(find . -name "aggregation-*\.html") | grep 'summarydefault_cpu_usage.*MEAN' | grep -o  '[0-9][0-9]*\.[0-9][0-9]*' | awk '{s+=$1} END {printf "CPU USAGE (MEAN) => %.4f seconds", s}' || /bin/true
+  - cd testbench
+  - wget https://nexus.cluster.ensisa.uha.fr/repository/maven-public/io/gatling/highcharts/gatling-charts-highcharts-bundle/$GATLING_VERSION/gatling-charts-highcharts-bundle-$GATLING_VERSION-bundle.zip
+  - unzip gatling-charts-highcharts-bundle-$GATLING_VERSION-bundle.zip
+  - export GATLING_HOME=$(cd gatling-charts-highcharts-bundle-$GATLING_VERSION; pwd)
+  - export DOCKER_HOST="tcp://dind:2375"
+  - export POD_IP=$(hostname -I)
+  - cp ../settings.xml settings.xml
+  - mvn $MAVEN_CLI_OPTS verify
