@@ -35,11 +35,11 @@ import java.util.Random;
 @EcoGatling(userCount = 20)
 @ExtendWith(EcoExtension.class)
 public class PremierTest {
-    @RepeatedTest(3)
+    /*@RepeatedTest(3)
 	void testSearch(WebDriver driver) {
 		driver.get("/");
-	}
-/*
+	}*/
+
     //variable pour tout les tests
     private CharSequence email;
     private Integer NOMBRE_ARTICLE_TEST =2;
@@ -83,7 +83,7 @@ public class PremierTest {
         inputs.get(4).sendKeys(password);
 
         wb.findElement(By.className("submit-btn")).click();
-    }
+    }/*
 
     private void login(WebDriver wb){
         if (!wb.getCurrentUrl().endsWith("/login")) {
