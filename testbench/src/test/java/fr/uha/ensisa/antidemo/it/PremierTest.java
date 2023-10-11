@@ -26,11 +26,11 @@ import java.time.Duration;
 import java.util.List;
 import java.util.Random;
 
-@EcoDocker(network = "metrology", url = "$DOCKER_HOST$", clean = false)
-//@EcoDockerContainer(id = "anti-demo-proxy-1")
-@EcoDockerContainer(id = "tutum-hello")
-//@EcoMonitor(containerId = "anti-demo-app-1")
-//@EcoMonitor(containerId = "anti-demo-db-1")
+@EcoDocker(network = "metrology", url = "$DOCKER_HOST$", clean = true)
+@EcoDockerContainer(id = "anti-demo-proxy-1")
+//@EcoDockerContainer(id = "tutum-hello")
+@EcoMonitor(containerId = "anti-demo-app-1")
+@EcoMonitor(containerId = "anti-demo-db-1")
 @EcoWebDriver(remote = true)
 @EcoGatling(userCount = 20)
 @ExtendWith(EcoExtension.class)
