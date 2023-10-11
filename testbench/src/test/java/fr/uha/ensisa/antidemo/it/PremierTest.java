@@ -97,7 +97,7 @@ public class PremierTest {
         pwd.sendKeys("aaaa");
 
         wb.findElement(By.id("login-submit")).submit();
-    }
+    }*/
 
     @Test
     public void testAccountCreation(WebDriver wb) throws IOException  {
@@ -108,7 +108,7 @@ public class PremierTest {
 
         //vérification que la création à été éffectuée
         assertEquals("/login", wb.getCurrentUrl());
-    }
+    }/*
 
     @Test
     public void testAccountLogin(WebDriver wb)  {
