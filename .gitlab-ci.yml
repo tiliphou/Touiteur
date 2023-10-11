@@ -58,6 +58,7 @@ integration_tests:
   stage: integration_tests
   image: maven:3-jdk-8
   variables:
+   DOCKER_HOST: "tcp://dind:2375"
    GATLING_VERSION: "3.9.5"
   script:
   #  - microdnf install wget
@@ -67,7 +68,6 @@ integration_tests:
   - wget https://nexus.cluster.ensisa.uha.fr/repository/maven-public/io/gatling/highcharts/gatling-charts-highcharts-bundle/$GATLING_VERSION/gatling-charts-highcharts-bundle-$GATLING_VERSION-bundle.zip
   - unzip gatling-charts-highcharts-bundle-$GATLING_VERSION-bundle.zip
   - export GATLING_HOME=$(cd gatling-charts-highcharts-bundle-$GATLING_VERSION; pwd)
-  - export DOCKER_HOST="tcp://dind:2375"
   - export POD_IP=$(hostname -I)
   - cp ../settings.xml settings.xml
   - mvn $MAVEN_CLI_OPTS verify
