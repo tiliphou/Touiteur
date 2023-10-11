@@ -66,7 +66,4 @@ integration_tests:
     - export GATLING_HOME=$(cd gatling-charts-highcharts-bundle-$GATLING_VERSION; pwd)
     - export DOCKER_HOST="tcp://dind:2375"
     - export POD_IP=$(hostname -I)
-    - mkdir -p it/src; cd it; ln -s ../settings.xml
-    - cp ../pom.xml . ; sed -i '/java.version/d' pom.xml
-    - cp -r ../src/test ./src/
-    - mvn $MAVEN_CLI_OPTS test-compile org.apache.maven.plugins:maven-failsafe-plugin:3.1.2:integration-test
+    - mvn $MAVEN_CLI_OPTS verify
