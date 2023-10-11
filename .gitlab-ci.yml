@@ -49,7 +49,9 @@ start_containers:
     - docker create -v data-volume:/ext_config --name helper busybox true
     - docker cp ./ext_config helper:/ext_config
     - docker compose up -d --build
+    - docker run -d --rm -P --name tutum-hello tutum/hello-world
     - docker rm helper
+    - docker ps -a
 
 
 integration_tests:
