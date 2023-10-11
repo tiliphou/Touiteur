@@ -21,8 +21,8 @@ variables:
 
 cache:
   paths:
-    - "libs"
-    - "**/target"
+    - "anti-demo/libs"
+    - "anti-demo/target"
 
 stages:
   - compile
@@ -32,6 +32,7 @@ stages:
 compile:
   stage: compile
   script:
+    - cd anti-demo
     - mvn clean compile
 
 
@@ -41,6 +42,7 @@ start_containers:
   variables:
     DOCKER_HOST: "tcp://dind:2375"
   script:
+    - cd anti-demo
     - docker stop $(docker ps -a -q) || /bin/true
     - docker rm $(docker ps -a -q) || /bin/true
     - docker volume create data-volume
