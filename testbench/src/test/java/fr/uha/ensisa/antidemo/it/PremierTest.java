@@ -197,7 +197,6 @@ public class PremierTest {
         wb.findElement(By.id("image-upload-form")).submit();
     }
 
-    @Test
     @RepeatedTest(3)
     public void papillonnage(WebDriver wb){
         JavascriptExecutor js = (JavascriptExecutor) wb;
