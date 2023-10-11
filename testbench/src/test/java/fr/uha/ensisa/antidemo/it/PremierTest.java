@@ -35,12 +35,7 @@ import java.util.Random;
 @EcoGatling(userCount = 20)
 @ExtendWith(EcoExtension.class)
 public class PremierTest {
-    /*@RepeatedTest(3)
-	void testSearch(WebDriver driver) {
-		driver.get("/");
-	}*/
-
-    //variable pour tout les tests
+        //variable pour tout les tests
     private CharSequence email;
     private Integer NOMBRE_ARTICLE_TEST =2;
     //en secondes
@@ -83,7 +78,7 @@ public class PremierTest {
         inputs.get(4).sendKeys(password);
 
         wb.findElement(By.className("submit-btn")).click();
-    }
+    }/*
 
     private void login(WebDriver wb){
         if (!wb.getCurrentUrl().endsWith("/login")) {
@@ -97,7 +92,7 @@ public class PremierTest {
         pwd.sendKeys("aaaa");
 
         wb.findElement(By.id("login-submit")).submit();
-    }
+    }*/
 
     @Test
     public void testAccountCreation(WebDriver wb) throws IOException  {
@@ -124,7 +119,7 @@ public class PremierTest {
 
         new WebDriverWait(wb, Duration.ofSeconds(5))
             .until(ExpectedConditions.elementToBeClickable(By.id("account-btn")));
-    }*/
+    }
 
 
     @Test
@@ -201,7 +196,7 @@ public class PremierTest {
         upload.sendKeys(img.getAbsolutePath());
         wb.findElement(By.id("image-upload-form")).submit();
     }
-/*
+
     @RepeatedTest(3)
     public void papillonnage(WebDriver wb){
         JavascriptExecutor js = (JavascriptExecutor) wb;
