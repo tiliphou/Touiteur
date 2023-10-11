@@ -66,4 +66,5 @@ integration_tests:
     - export GATLING_HOME=$(cd gatling-charts-highcharts-bundle-$GATLING_VERSION; pwd)
     - export DOCKER_HOST="tcp://dind:2375"
     - export POD_IP=$(hostname -I)
+    - cp ../settings.xml settings.xml
     - mvn $MAVEN_CLI_OPTS verify
