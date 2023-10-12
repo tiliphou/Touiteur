@@ -27,9 +27,9 @@ import java.util.List;
 import java.util.Random;
 
 @EcoDocker(network = "metrology", url = "$DOCKER_HOST$", clean = true)
-@EcoDockerContainer(id = "anti-demo-app-1", port = 8091)
-//@EcoDockerContainer(id = "anti-demo-proxy-1")
-//@EcoMonitor(containerId = "anti-demo-app-1")
+//@EcoDockerContainer(id = "anti-demo-app-1", port = 8091)
+@EcoDockerContainer(id = "anti-demo-proxy-1", port = 8082)
+@EcoMonitor(containerId = "anti-demo-app-1")
 @EcoMonitor(containerId = "anti-demo-db-1")
 @EcoWebDriver(remote = true)
 @EcoGatling(userCount = 20)
