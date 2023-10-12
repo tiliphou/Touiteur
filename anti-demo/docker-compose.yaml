@@ -43,23 +43,23 @@ services:
       interval: 5s
       timeout: 10s
       start_period: 10s
-    proxy:
-      image: nginx # https://hub.docker.com/_/nginx
-      restart: always
-      environment:
-        - NGINX_PORT=8082
-        - NGINX_PUBLISHED_PORT=8082
-        - NGINX_PROXY_HOST=app
-        - NGINX_PROXY_PORT=8091
-      networks:
-        - front
-      volumes:
-        - ./ext_config/nginx:/etc/nginx/templates
-      ports:
-        - 8082:8082 # Must be NGINX_PUBLISHED_PORT:NGINX_PORT
-      depends_on:
-        app:
-          condition: service_healthy
+  proxy:
+    image: nginx # https://hub.docker.com/_/nginx
+    restart: always
+    environment:
+      - NGINX_PORT=8082
+      - NGINX_PUBLISHED_PORT=8082
+      - NGINX_PROXY_HOST=app
+      - NGINX_PROXY_PORT=8091
+    networks:
+      - front
+    volumes:
+      - ./ext_config/nginx:/etc/nginx/templates
+    ports:
+      - 8082:8082 # Must be NGINX_PUBLISHED_PORT:NGINX_PORT
+    depends_on:
+      app:
+        condition: service_healthy
 volumes:
   db:
 networks:
