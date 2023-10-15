@@ -12,7 +12,7 @@ RUN echo 'server {\
         proxy_pass          http://$NGINX_PROXY_HOST:$NGINX_PROXY_PORT/;\
         proxy_redirect      http://$host/ http://$host:$NGINX_PUBLISHED_PORT/;\
     }\
-}' > ./etc/nginx/templates
+}' > ./etc/nginx/templates/default.conf.template
 
 
 CMD ["nginx", "-g", "daemon off;"]
