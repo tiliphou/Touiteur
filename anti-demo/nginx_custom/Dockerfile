@@ -1,5 +1,5 @@
 FROM nginx
-
+RUN mkdir -p /etc/nginx/templates
 RUN echo 'server {\
     listen  $NGINX_PORT;\
     client_max_body_size 0;\
