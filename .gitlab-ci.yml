@@ -47,7 +47,7 @@ start_containers:
     - docker rm $(docker ps -a -q) || /bin/true
     - docker volume create data-volume
     - docker create -v /root/ext_config:/ext_config --name helper busybox true
-    - docker cp ./ext_config helper:/
+    - docker cp ./ext_config/nginx helper:/
     - docker compose up -d --build
     - docker rm helper
     - docker ps -a
