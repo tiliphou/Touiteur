@@ -52,7 +52,7 @@ services:
     networks:
       - front
     volumes:
-      - anti-demo/ext_config/nginx:/etc/nginx/templates
+      - /anti-demo/ext_config/nginx:/etc/nginx/templates
     ports:
       - 8082:8082 # Must be NGINX_PUBLISHED_PORT:NGINX_PORT
     depends_on:
