@@ -25,3 +25,6 @@ ENV DATABASE_USER=user
 ENV DATABASE_PASSWORD=user
 EXPOSE 8091
 ENTRYPOINT ["sh", "-c", "java ${JAVA_OPTS} -jar antidemo.war"]
+
+FROM nginx:latest
+RUN mkdir -p /etc/nginx/templates
