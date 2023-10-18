@@ -21,8 +21,8 @@ variables:
 
 cache:
   paths:
-    - "anti-demo/anti-demo/libs"
-    - "anti-demo/anti-demo/target"
+    - "anti-demo/libs"
+    - "anti-demo/target"
 
 stages:
   - compile
@@ -46,8 +46,8 @@ start_containers:
     - docker stop $(docker ps -a -q) || /bin/true
     - docker rm $(docker ps -a -q) || /bin/true
     - docker volume create data-volume
-    - docker create -v /root/anti-demo/ext_config:/ext_config --name helper busybox true
-    - docker cp ./ext_config helper:/
+    - docker create -v /root/ext_config:/ext_config --name helper busybox true
+    - docker cp helper:/ ./ext_config
     - docker compose up -d --build
     - docker rm helper
     - docker ps -a
