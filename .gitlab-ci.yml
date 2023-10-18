@@ -21,8 +21,8 @@ variables:
 
 cache:
   paths:
-    - "anti-demo/libs"
-    - "anti-demo/target"
+    - "/anti-demo/libs"
+    - "/anti-demo/target"
 
 stages:
   - compile
