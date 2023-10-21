@@ -70,12 +70,13 @@ integration_tests:
   - export GATLING_HOME=$(cd gatling-charts-highcharts-bundle-$GATLING_VERSION; pwd)
   - export POD_IP=$(hostname -I)
   - cp ../settings.xml settings.xml
-  - mvn $MAVEN_CLI_OPTS verifyartifacts: # results of the stage
-  paths:
-  - "**/target/*"
-  reports:
-    junit:
-    - "**/target/surefire-reports/TEST-*.xml"
+  - mvn $MAVEN_CLI_OPTS verify
+  artifacts: # results of the stage
+    paths:
+    - "**/target/*"
+    reports:
+      junit:
+      - "**/target/surefire-reports/TEST-*.xml"
 
 stop_containers:
   stage: cleanup
