@@ -52,7 +52,7 @@ services:
     networks:
       - front
     volumes:
-      - /root/ext_config/nginx/default.conf.template:/etc/nginx/templates/default.conf.template:ro
+      - ./ext_config/nginx/default.conf.template:/etc/nginx/templates/default.conf.template:ro
 
 
     ports:
