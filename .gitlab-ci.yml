@@ -49,7 +49,7 @@ start_containers:
     - pwd
     # - docker create -v /root/ext_config:/ext_config --name helper busybox true
     - docker create -v `pwd`/ext_config:/ext_config --name helper -it busybox /bin/sh
-    - docker cp ./ext_config/ helper:/ext_config/
+    - docker cp ./ext_config helper:/
     - docker compose up -d --build
     - docker rm helper
     - docker ps -a
