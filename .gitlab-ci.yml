@@ -73,13 +73,14 @@ integration_tests:
   - mvn $MAVEN_CLI_OPTS verify
   artifacts: # results of the stage
     paths:
-    - "**/target/*"
+    - "**/target/ecoconception/*"
     reports:
       junit:
       - "**/target/surefire-reports/TEST-*.xml"
 
 stop_containers:
   stage: cleanup
+  image: docker
   variables:
     DOCKER_HOST: "tcp://dind:2375"
   script:
