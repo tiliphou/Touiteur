@@ -26,8 +26,9 @@ cache:
 
 stages:
   - compile
-  - start_containers
+  - start
   - integration_tests
+  - cleanup
 
 compile:
   stage: compile
@@ -37,19 +38,17 @@ compile:
 
 
 start_containers:
-  stage: start_containers
+  stage: start
   image: docker
   variables:
     DOCKER_HOST: "tcp://dind:2375"
   script:
     - docker ps -a
     - cd anti-demo
-    - docker stop $(docker ps -a -q) || /bin/true
-    - docker rm $(docker ps -a -q) || /bin/true
-    - pwd
-    # - docker create -v /root/ext_config:/ext_config --name helper busybox true
+    - docker compose down -v || /bin/true
+    - docker rm $(docker ps -a | grep metrologie- | awk '{print $1}') || /bin/true # incase ecoextension was not properly stopped
     - docker create -v `pwd`/ext_config:/ext_config --name helper -it busybox /bin/sh
-    - docker cp ./ext_config helper:/
+    - docker cp ./ext_config helper:/ # transmitting . for remote docker compose
     - docker compose up -d --build
     - docker rm helper
     - docker ps -a
@@ -71,4 +70,17 @@ integration_tests:
   - export GATLING_HOME=$(cd gatling-charts-highcharts-bundle-$GATLING_VERSION; pwd)
   - export POD_IP=$(hostname -I)
   - cp ../settings.xml settings.xml
-  - mvn $MAVEN_CLI_OPTS verify
+  - mvn $MAVEN_CLI_OPTS verifyartifacts: # results of the stage
+  paths:
+  - "**/target/*"
+  reports:
+    junit:
+    - "**/target/surefire-reports/TEST-*.xml"
+
+stop_containers:
+  stage: cleanup
+  variables:
+    DOCKER_HOST: "tcp://dind:2375"
+  script:
+    - cd anti-demo
+    - docker compose down -v || /bin/true
