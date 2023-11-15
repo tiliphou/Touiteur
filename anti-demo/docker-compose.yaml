@@ -39,7 +39,7 @@ services:
     healthcheck:
       test: curl localhost:8091
       interval: 5s
-      timeout: 10s
+      timeout: 60s
       start_period: 10s
   proxy:
     image: nginx # https://hub.docker.com/_/nginx
