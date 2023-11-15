@@ -74,6 +74,8 @@ integration_tests:
   artifacts: # results of the stage
     paths:
     - "**/target/ecoconception/*"
+    exclude:
+      - "*.har"
     reports:
       junit:
       - "**/target/surefire-reports/TEST-*.xml"
