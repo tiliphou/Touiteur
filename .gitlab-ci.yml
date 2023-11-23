@@ -79,6 +79,8 @@ integration_tests:
     reports:
       junit:
       - "**/target/surefire-reports/TEST-*.xml"
+      metrics:
+        - "**/target/ecoconception/*/metrics.prom"
 
 stop_containers:
   stage: cleanup
