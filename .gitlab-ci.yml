@@ -17,36 +17,23 @@ before_script:
           </settings>' > settings.xml
 
 variables:
-  MAVEN_CLI_OPTS: "--batch-mode -s settings.xml -Dmaven.repo.local=libs"
-
-cache:
-  paths:
-    - "anti-demo/libs"
-    - "anti-demo/target"
+  MAVEN_CLI_OPTS: "--batch-mode --no-transfer-progress -U -s settings.xml"
 
 stages:
-  - compile
-  - start
+  - prepare_it
   - integration_tests
-  - cleanup
-
-compile:
-  stage: compile
-  script:
-    - cd anti-demo
-    - mvn clean compile
-
+  - cleanup_it
 
 start_containers:
-  stage: start
+  stage: prepare_it
   image: docker
   variables:
     DOCKER_HOST: "tcp://dind:2375"
   script:
-    - docker ps -a
     - cd anti-demo
     - docker compose down -v || /bin/true
-    - docker rm $(docker ps -a | grep metrologie- | awk '{print $1}') || /bin/true # incase ecoextension was not properly stopped
+    - docker stop $(docker ps --format '{{.Names}}' | grep '^antidemo-metrologie-') || /bin/true # incase ecoextension was not properly stopped
+    - docker rm $(docker ps --format '{{.Names}}' | grep '^antidemo-metrologie-') || /bin/true # incase ecoextension was not properly stopped
     - docker create -v `pwd`/ext_config:/ext_config --name helper -it busybox /bin/sh
     - docker cp ./ext_config helper:/ # transmitting . for remote docker compose
     - docker compose up -d --build
@@ -54,7 +41,7 @@ start_containers:
     - docker ps -a
 
 
-integration_tests:
+resources_test:
   stage: integration_tests
   image: maven:3-jdk-8
   variables:
@@ -65,8 +52,8 @@ integration_tests:
   #  - microdnf install unzip
   #  - microdnf install hostname
   - cd testbench
-  - wget https://nexus.cluster.ensisa.uha.fr/repository/maven-public/io/gatling/highcharts/gatling-charts-highcharts-bundle/$GATLING_VERSION/gatling-charts-highcharts-bundle-$GATLING_VERSION-bundle.zip
-  - unzip gatling-charts-highcharts-bundle-$GATLING_VERSION-bundle.zip
+  - wget -q https://nexus.cluster.ensisa.uha.fr/repository/maven-public/io/gatling/highcharts/gatling-charts-highcharts-bundle/$GATLING_VERSION/gatling-charts-highcharts-bundle-$GATLING_VERSION-bundle.zip
+  - unzip -q gatling-charts-highcharts-bundle-$GATLING_VERSION-bundle.zip
   - export GATLING_HOME=$(cd gatling-charts-highcharts-bundle-$GATLING_VERSION; pwd)
   - export POD_IP=$(hostname -I)
   - cp ../settings.xml settings.xml
@@ -75,7 +62,7 @@ integration_tests:
     paths:
     - "**/target/ecoconception/*"
     exclude:
-      - "*.har"
+      - "**/*.har"
     reports:
       junit:
       - "**/target/surefire-reports/TEST-*.xml"
@@ -83,7 +70,7 @@ integration_tests:
         - "**/target/ecoconception/*/metrics.prom"
 
 stop_containers:
-  stage: cleanup
+  stage: cleanup_it
   image: docker
   variables:
     DOCKER_HOST: "tcp://dind:2375"

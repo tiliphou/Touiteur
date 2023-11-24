@@ -26,13 +26,12 @@ import java.time.Duration;
 import java.util.List;
 import java.util.Random;
 
-@EcoDocker(network = "metrology", url = "$DOCKER_HOST$", clean = true)
-//@EcoDockerContainer(id = "anti-demo-app-1", port = 8091)
+@EcoDocker(network = "antidemo-metrologie", clean = true)
 @EcoDockerContainer(id = "anti-demo-proxy-1", port = 8082)
 @EcoMonitor(containerId = "anti-demo-app-1")
 @EcoMonitor(containerId = "anti-demo-db-1")
-@EcoWebDriver(remote = true)
-@EcoGatling(userCount = 20)
+@EcoWebDriver(remote = true) // <- change this tu use local browser
+@EcoGatling(userCount = 10, rampDuration = 10)
 @ExtendWith(EcoExtension.class)
 public class PremierTest {
         //variable pour tout les tests
@@ -78,7 +77,7 @@ public class PremierTest {
         inputs.get(4).sendKeys(password);
 
         wb.findElement(By.className("submit-btn")).click();
-    }/*
+    }
 
     private void login(WebDriver wb){
         if (!wb.getCurrentUrl().endsWith("/login")) {
@@ -92,7 +91,7 @@ public class PremierTest {
         pwd.sendKeys("aaaa");
 
         wb.findElement(By.id("login-submit")).submit();
-    }*/
+    }
 
     @Test
     public void testAccountCreation(WebDriver wb) throws IOException  {
@@ -103,7 +102,7 @@ public class PremierTest {
 
         //vérification que la création à été éffectuée
         assertEquals("/login", wb.getCurrentUrl());
-    }/*
+    }
 
     @Test
     public void testAccountLogin(WebDriver wb)  {
@@ -160,7 +159,7 @@ public class PremierTest {
             }
         }
     }
-
+/*
     @Test
     public void testUploadImage(WebDriver wb) throws MalformedURLException, IOException  {
         wb.get("/");
@@ -196,7 +195,7 @@ public class PremierTest {
         upload.sendKeys(img.getAbsolutePath());
         wb.findElement(By.id("image-upload-form")).submit();
     }
-
+*/
     @RepeatedTest(3)
     public void papillonnage(WebDriver wb){
         JavascriptExecutor js = (JavascriptExecutor) wb;
@@ -226,7 +225,7 @@ public class PremierTest {
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
-    }*/
+    }
 
 
 }
