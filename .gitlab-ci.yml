@@ -1,0 +1,79 @@
+image: maven:3-openjdk-17
+
+before_script:
+  - echo '<settings
+          xmlns="http://maven.apache.org/SETTINGS/1.0.0"
+          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+          xsi:schemaLocation="http://maven.apache.org/SETTINGS/1.0.0
+          https://maven.apache.org/xsd/settings-1.0.0.xsd">
+            <mirrors>
+              <mirror>
+                <id>ensisa</id>
+                <name>Nexus ENSISA</name>
+                <url>https://nexus.cluster.ensisa.uha.fr/repository/maven-public/</url>
+                <mirrorOf>*</mirrorOf>
+              </mirror>
+            </mirrors>
+          </settings>' > settings.xml
+
+variables:
+  MAVEN_CLI_OPTS: "--batch-mode --no-transfer-progress -U -s settings.xml"
+
+stages:
+  - prepare_it
+  - integration_tests
+  - cleanup_it
+
+start_containers:
+  stage: prepare_it
+  image: docker
+  variables:
+    DOCKER_HOST: "tcp://dind:2375"
+  script:
+    - cd anti-demo
+    - docker compose down -v || /bin/true
+    - docker stop $(docker ps --format '{{.Names}}' | grep '^antidemo-metrologie-') || /bin/true # incase ecoextension was not properly stopped
+    - docker rm $(docker ps --format '{{.Names}}' | grep '^antidemo-metrologie-') || /bin/true # incase ecoextension was not properly stopped
+    - docker create -v `pwd`/ext_config:/ext_config --name helper -it busybox /bin/sh
+    - docker cp ./ext_config helper:/ # transmitting . for remote docker compose
+    - docker compose up -d --build
+    - docker rm helper
+    - docker ps -a
+
+
+resources_test:
+  stage: integration_tests
+  image: maven:3-jdk-8
+  variables:
+   DOCKER_HOST: "tcp://dind:2375"
+   GATLING_VERSION: "3.9.5"
+  script:
+  #  - microdnf install wget
+  #  - microdnf install unzip
+  #  - microdnf install hostname
+  - cd testbench
+  - wget -q https://nexus.cluster.ensisa.uha.fr/repository/maven-public/io/gatling/highcharts/gatling-charts-highcharts-bundle/$GATLING_VERSION/gatling-charts-highcharts-bundle-$GATLING_VERSION-bundle.zip
+  - unzip -q gatling-charts-highcharts-bundle-$GATLING_VERSION-bundle.zip
+  - export GATLING_HOME=$(cd gatling-charts-highcharts-bundle-$GATLING_VERSION; pwd)
+  - export POD_IP=$(hostname -I)
+  - cp ../settings.xml settings.xml
+  - mvn $MAVEN_CLI_OPTS verify
+  artifacts: # results of the stage
+    paths:
+    - "**/target/ecoconception/*"
+    exclude:
+      - "**/*.har"
+    reports:
+      junit:
+      - "**/target/surefire-reports/TEST-*.xml"
+      metrics:
+        - "**/target/ecoconception/*/metrics.prom"
+
+stop_containers:
+  stage: cleanup_it
+  image: docker
+  variables:
+    DOCKER_HOST: "tcp://dind:2375"
+  script:
+    - cd anti-demo
+    - docker compose down -v || /bin/true
