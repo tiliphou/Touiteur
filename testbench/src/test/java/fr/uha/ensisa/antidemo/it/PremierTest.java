@@ -30,7 +30,7 @@ import java.util.Random;
 @EcoDockerContainer(id = "anti-demo-proxy-1", port = 8082)
 @EcoMonitor(containerId = "anti-demo-app-1")
 @EcoMonitor(containerId = "anti-demo-db-1")
-@EcoWebDriver(remote = false) // <- change this tu use local browser
+@EcoWebDriver(remote = true) // <- change this tu use local browser
 @EcoGatling(userCount = 10, rampDuration = 10)
 @ExtendWith(EcoExtension.class)
 public class PremierTest {
