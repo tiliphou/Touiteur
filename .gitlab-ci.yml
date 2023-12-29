@@ -47,7 +47,7 @@ resources_test:
   variables:
    DOCKER_HOST: "tcp://dind:2375"
    GATLING_VERSION: "3.9.5"
-   HEADLESS_STATE: "true"
+   #HEADLESS_STATE: "true"
   script:
   #  - microdnf install wget
   #  - microdnf install unzip
