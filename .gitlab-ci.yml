@@ -28,7 +28,7 @@ start_containers:
   stage: prepare_it
   image: docker
   variables:
-    DOCKER_HOST: "tcp://31.32.242.28:2375"
+    DOCKER_HOST: "tcp://dind:2375"
   script:
     - cd anti-demo
     - docker compose down -v || /bin/true
@@ -45,7 +45,7 @@ resources_test:
   stage: integration_tests
   image: maven:3-jdk-8
   variables:
-   DOCKER_HOST: "tcp://31.32.242.28:2375"
+   DOCKER_HOST: "tcp://dind:2375"
    GATLING_VERSION: "3.9.5"
    HEADLESS_STATE: "true"
   script:
@@ -74,7 +74,7 @@ stop_containers:
   stage: cleanup_it
   image: docker
   variables:
-    DOCKER_HOST: "tcp://31.32.242.28:2375"
+    DOCKER_HOST: "tcp://dind:2375"
   script:
     - cd anti-demo
     - docker compose down -v || /bin/true
