@@ -20,57 +20,64 @@ variables:
   MAVEN_CLI_OPTS: "--batch-mode --no-transfer-progress -U -s settings.xml"
   DOCKER_HOST: $DOCKER_REMOTE_HOST
 
-stages:
-  - prepare_it
-  - integration_tests
-  - cleanup_it
-
 start_containers:
-  stage: prepare_it
   image: docker
   script:
     - cd anti-demo
-    - docker compose down -v || /bin/true
-    - docker stop $(docker ps --format '{{.Names}}' | grep '^antidemo-metrologie-') || /bin/true # incase ecoextension was not properly stopped
-    - docker rm $(docker ps --format '{{.Names}}' | grep '^antidemo-metrologie-') || /bin/true # incase ecoextension was not properly stopped
+    # Wait until docker server is free from other similar tasks
+    - while [ "1" -eq $(docker ps -qa -f name="helper" | wc -l) ]; do echo "Waiting for docker host to be free (use 'manual_stop_containers' job to force)"; docker ps -a; sleep 5; done
     - docker create -v `pwd`/ext_config:/ext_config --name helper -it busybox /bin/sh
     - docker cp ./ext_config helper:/ # transmitting . for remote docker compose
     - docker compose up -d --build
-    - docker rm helper
     - docker ps -a
 
 
 resources_test:
-  stage: integration_tests
+  needs:
+    - start_containers
   variables:
     GATLING_VERSION: "3.9.5"
   script:
-  #  - microdnf install wget
-  #  - microdnf install unzip
-  #  - microdnf install hostname
   - cd testbench
   - apt-get update; apt-get install -y wget unzip
   - wget -q https://nexus.cluster.ensisa.uha.fr/repository/maven-public/io/gatling/highcharts/gatling-charts-highcharts-bundle/$GATLING_VERSION/gatling-charts-highcharts-bundle-$GATLING_VERSION-bundle.zip
   - unzip -q gatling-charts-highcharts-bundle-$GATLING_VERSION-bundle.zip
   - export GATLING_HOME=$(cd gatling-charts-highcharts-bundle-$GATLING_VERSION; pwd)
-  # - export POD_IP=$(hostname -I)
   - cp ../settings.xml settings.xml
   - mvn $MAVEN_CLI_OPTS clean
   - mvn -U $MAVEN_CLI_OPTS verify
-  artifacts: # results of the stage
+  artifacts:
     paths:
     - "**/target/ecoconception/*"
-    exclude:
-      - "**/*.har"
     reports:
       junit:
       - "**/target/surefire-reports/TEST-*.xml"
       metrics:
         - "**/target/ecoconception/*/metrics.prom"
 
-stop_containers:
-  stage: cleanup_it
+.stop_containers: &stop_containers
   image: docker
   script:
     - cd anti-demo
     - docker compose down -v || /bin/true
+    - docker rm helper || /bin/true
+    - docker ps -a
+
+cleanup_containers:
+  <<: *stop_containers
+  needs:
+    - start_containers
+    - resources_test
+  rules:
+    - when: always
+
+manual_stop_containers:
+  <<: *stop_containers
+  rules:
+    - when: manual
+
+list_containers:
+  image: docker
+  script:
+    - docker ps -a
+  when: manual
