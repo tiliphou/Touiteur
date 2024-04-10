@@ -9,3 +9,5 @@ In order for the metrology tool to work you need to set two environment variable
 * POWERSPY_HOST : the address at which an [energy sensor](https://gitlab.cluster.ensisa.uha.fr/ecoconception/powerspy-java) is available
 
 To run testbench, just cd into it and run `mvn test`.
+ 
+this the test for everyone
